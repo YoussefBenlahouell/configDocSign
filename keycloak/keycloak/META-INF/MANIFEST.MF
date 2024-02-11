@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Created-By: Apache Maven 3.8.2
+Built-By: opalka
+Build-Jdk: 11.0.12
+Specification-Title: JBoss Modules
+Specification-Version: 2.0
+Specification-Vendor: JBoss by Red Hat
+Implementation-Title: JBoss Modules
+Implementation-Version: 2.0.0.Final
+Implementation-Vendor-Id: org.jboss.modules
+Implementation-Vendor: JBoss by Red Hat
+Main-Class: org.jboss.modules.Main
+Agent-Class: org.jboss.modules.ModularAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Implementation-URL: http://www.jboss.org/jboss-modules
+Jar-Name: jboss-modules
+Jar-Version: 2.0.0.Final
+Java-Vendor: Oracle Corporation
+Java-Version: 11.0.12
+Multi-Release: true
+Os-Arch: amd64
+Os-Name: Linux
+Os-Version: 5.13.19-200.fc34.x86_64
+Premain-Class: org.jboss.modules.ModularAgent
+Scm-Connection: scm:git:git@github.com:jboss/jboss-parent-pom.git/jboss-
+ modules
+Scm-Revision: 565cac8a2ae861d50e1c24aa8ebc36528f0e32e7
+Scm-Url: http://github.com/jboss/jboss-parent-pom/jboss-modules
+

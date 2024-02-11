@@ -1,0 +1,4 @@
+2022-05-05 11:03:44,644 WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (default task-2) SQL Error: 23505, SQLState: 23505
+2022-05-05 11:03:44,684 ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (default task-2) Violation dindex unique ou clé primaire: {0}
+Unique index or primary key violation: {0}; SQL statement:
+insert into USER_ENTITY (CREATED_TIMESTAMP, EMAIL, EMAIL_CONSTRAINT, EMAIL_VERIFIED, ENABLED, FEDERATION_LINK, FIRST_NAME, LAST_NAME, NOT_BEFORE, REALM_ID, SERVICE_ACCOUNT_CLIENT_LINK, USERNAME, ID) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [23505-197]

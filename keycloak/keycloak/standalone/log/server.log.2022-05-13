@@ -1,0 +1,1 @@
+2022-05-13 10:42:03,889 WARN  [org.keycloak.events] (default task-6) type=LOGIN_ERROR, realmId=ms-realm, clientId=null, userId=null, ipAddress=127.0.0.1, error=expired_code, restart_after_timeout=true, authSessionParentId=ddff7c6c-a25e-4282-ab3f-78de2b232ff7, authSessionTabId=AClUck64j4E

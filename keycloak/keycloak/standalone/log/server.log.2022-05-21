@@ -1,0 +1,1 @@
+2022-05-21 00:53:14,141 WARN  [org.keycloak.events] (default task-97) type=LOGIN_ERROR, realmId=ms-realm, clientId=null, userId=null, ipAddress=127.0.0.1, error=invalid_code

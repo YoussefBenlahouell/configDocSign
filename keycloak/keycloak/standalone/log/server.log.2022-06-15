@@ -1,0 +1,1 @@
+2022-06-15 19:08:04,907 WARN  [org.keycloak.events] (default task-55) type=REFRESH_TOKEN_ERROR, realmId=ms-realm, clientId=angular-client, userId=null, ipAddress=127.0.0.1, error=invalid_token, grant_type=refresh_token, client_auth_method=client-secret
