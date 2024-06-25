@@ -1,2 +1,0 @@
-2022-06-03 07:36:40,214 WARN  [org.keycloak.events] (default task-105) type=LOGIN_ERROR, realmId=ms-realm, clientId=null, userId=null, ipAddress=127.0.0.1, error=cookie_not_found
-2022-06-03 07:36:45,323 WARN  [org.keycloak.events] (default task-105) type=LOGIN_ERROR, realmId=ms-realm, clientId=null, userId=null, ipAddress=127.0.0.1, error=cookie_not_found

@@ -1,4 +1,4 @@
-package tn.inetum.documentMS;
+package tn.docsign.documentMS;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

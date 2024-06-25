@@ -1,4 +1,4 @@
-package tn.inetum.gateway;
+package tn.docsign.gateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

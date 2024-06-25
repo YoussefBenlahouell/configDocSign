@@ -1,5 +1,0 @@
-2022-03-08 16:39:29,270 WARN  [org.keycloak.events] (default task-11) type=LOGIN_ERROR, realmId=master, clientId=Spring-cloud-gateway-client, userId=null, ipAddress=127.0.0.1, error=invalid_client_credentials, grant_type=password
-2022-03-08 16:43:04,992 WARN  [org.keycloak.events] (default task-11) type=LOGIN_ERROR, realmId=master, clientId=spring-cloud-gateway-client, userId=null, ipAddress=127.0.0.1, error=invalid_client_credentials, grant_type=password
-2022-03-08 17:04:25,855 WARN  [org.keycloak.events] (default task-11) type=LOGIN_ERROR, realmId=master, clientId=spring-cloud-gateway-client, userId=null, ipAddress=127.0.0.1, error=invalid_client_credentials, grant_type=password
-2022-03-08 17:26:55,597 WARN  [org.keycloak.events] (default task-16) type=LOGIN_ERROR, realmId=master, clientId=spring-cloud-gateway-client, userId=null, ipAddress=127.0.0.1, error=invalid_client_credentials, grant_type=password
-2022-03-08 18:10:46,121 WARN  [org.keycloak.events] (default task-28) type=LOGIN_ERROR, realmId=ms-realm, clientId=spring-cloud-gateway-client, userId=null, ipAddress=127.0.0.1, error=invalid_client_credentials, grant_type=password

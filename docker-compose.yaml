@@ -1,0 +1,196 @@
+version: '3.8'
+services:
+
+  mysql:
+    image: mysql
+    networks:
+      - signatury-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      retries: 10
+      interval: 3s
+      timeout: 30s
+    environment:
+      - MYSQL_ROOT_PASSWORD=0000
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=yassine
+      - MYSQL_PASSWORD=0000
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  eureka:
+    image: eureka:0.0.1
+    container_name: eureka
+    networks:
+      - signatury-network  
+    ports:
+      - "8761:8761"
+
+
+  keycloak:
+    image: keycloak:0.0.1
+    container_name: keycloak
+    networks:
+      - signatury-network  
+    environment:
+      DB_VENDOR: mysql
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: root
+      DB_PASSWORD: 0000
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN:  admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    entrypoint:  ["/opt/keycloak/bin/kc.sh" , "start-dev" , "--import-realm"]
+    ports:
+      - 8443:8443
+      - 8180:8080
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/auth/realms/master" ]
+      start_period: 55s
+      interval: 30s
+      retries: 3
+      timeout: 5s
+
+  config:
+    image: configserver:0.0.1
+    container_name: config
+    networks:
+      - signatury-network  
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka
+    ports:
+      - "8888:8888"
+    depends_on:
+      eureka:
+        condition: service_started
+
+
+  userMS:
+    image: user:0.0.1
+    container_name: userMS
+    networks:
+      - signatury-network  
+    environment:
+      spring.cloud.config.uri: http://config:8888
+      MYSQL_HOST: mysql:3306
+      DATABASE_NAME: template_db
+      spring.datasource.username: root
+      spring.datasource.password: '0000'
+      EUREKA_URL: http://eureka:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8180/auth
+
+
+    ports:
+      - "9300:9300"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      config:
+        condition: service_started
+
+
+
+  templateMS:
+    image: template:0.0.1
+    container_name: templateMS
+    networks:
+      - signatury-network  
+    environment:
+      spring.cloud.config.uri: http://config:8888
+      MYSQL_HOST: mysql:3306
+      DATABASE_NAME: template_db
+      spring.datasource.username: root
+      spring.datasource.password: '0000'
+      EUREKA_URL: http://eureka:8761/eureka
+      KEYCLOAK_URL: http://keycloak:8180/auth
+
+    ports:
+      - "9200:9200"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka:
+        condition: service_started
+      config:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+
+
+  documentMS:
+      image: document:0.0.1
+      container_name: documentMS
+      networks:
+        - signatury-network  
+      environment:
+        spring.cloud.config.uri: http://config:8888
+        MYSQL_HOST: mysql:3306
+        DATABASE_NAME: document_db
+        spring.datasource.username: root
+        spring.datasource.password: '0000'
+        EUREKA_URL: http://eureka:8761/eureka
+        KEYCLOAK_URL: http://keycloak:8180/auth
+        
+      ports:
+        - "9100:9100"
+      depends_on:
+        mysql:
+          condition: service_healthy
+        eureka:
+          condition: service_started
+        config:
+          condition: service_started
+        keycloak:
+          condition: service_healthy
+
+  gateway:
+     image: gateway:0.0.1
+     container_name: gateway
+     networks:
+       - signatury-network  
+     environment:
+       eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka
+       KEYCLOAK_URL: http://keycloak:8080
+      
+     ports:
+       - "9999:9999"
+     depends_on:
+       keycloak:
+         condition: service_healthy
+       eureka:
+         condition: service_started
+
+  angular:
+     image: angular:0.0.1
+     container_name: angular
+     networks:
+       - signatury-network  
+     ports:
+       - "80:80"
+     depends_on:
+       keycloak:
+         condition: service_healthy
+
+
+  zipkin:
+    image: openzipkin/zipkin
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
+
+volumes:
+  db-data:
+networks:
+  signatury-network:
+    name: signatury-network
+    driver: bridge

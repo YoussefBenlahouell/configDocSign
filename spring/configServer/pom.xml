@@ -8,7 +8,7 @@
 		<version>2.6.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>tn.inetum</groupId>
+	<groupId>tn.docsign</groupId>
 	<artifactId>configServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>configServer</name>
@@ -16,7 +16,63 @@
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
+		<app.image.name>signatury-configserver</app.image.name>
+		<app.image.tag>0.0.1</app.image.tag>
 	</properties>
+	<profiles>
+		<profile>
+			<id>push-image-locally</id>
+			<activation>
+			<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+			<plugins>
+				<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.5.2</version>
+				<configuration>
+					<from>
+					<image>openjdk:11</image>
+					</from>
+					<container>
+					<ports>
+						<port>8080</port>
+					</ports>
+					<format>OCI</format>
+					</container>
+				</configuration>
+				<executions>
+					<execution>
+					<id>push-custom-tag</id>
+					<phase>package</phase>
+					<configuration>
+						<to>
+						<image>signatury/${app.image.name}:${app.image.tag}</image>
+						</to>
+					</configuration>
+					<goals>
+						<goal>dockerBuild</goal>
+					</goals>
+					</execution>
+					<execution>
+					<id>push-latest-tag</id>
+					<phase>package</phase>
+					<configuration>
+						<to>
+						<image>signatury/${app.image.name}:latest</image>
+						</to>
+					</configuration>
+					<goals>
+						<goal>dockerBuild</goal>
+					</goals>
+					</execution>
+				</executions>
+				</plugin>
+			</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,6 +107,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+			<groupId>com.google.cloud.tools</groupId>
+			<artifactId>jib-maven-plugin</artifactId>
+			<version>2.5.2</version>
+			<configuration>
+				<from>
+				<image>openjdk:11</image>
+				</from>
+				<container>
+				<ports>
+					<port>8080</port>
+				</ports>
+				<format>OCI</format>
+				</container>
+			</configuration>
+  		  </plugin>
 		</plugins>
 	</build>
 

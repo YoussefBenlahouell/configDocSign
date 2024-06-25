@@ -1,2 +1,0 @@
-2022-04-19 04:44:32,922 WARN  [org.keycloak.services] (default task-5) KC-SERVICES0091: Request is missing scope 'openid' so it's not treated as OIDC, but just pure OAuth2 request.
-2022-04-19 12:25:02,855 WARN  [org.keycloak.events] (default task-6) type=LOGIN_ERROR, realmId=ms-realm, clientId=null, userId=null, ipAddress=127.0.0.1, error=expired_code, restart_after_timeout=true, authSessionParentId=13698d39-9760-4439-95f1-06d52429a967, authSessionTabId=Z_DfnDVa7g0

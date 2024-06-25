@@ -1,4 +1,4 @@
-package tn.inetum.templateMS;
+package tn.docsign.templateMS;
 
 
 import org.junit.Assert;
