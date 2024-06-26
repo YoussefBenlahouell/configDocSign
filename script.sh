@@ -10,7 +10,7 @@ mvn -f  spring/gateway/pom.xml  clean install jib:dockerBuild -Djib.to.image=gat
 mvn -f  spring/userMS/pom.xml clean install jib:dockerBuild -Djib.to.image=user:0.0.1  -DskipTests=true
 mvn -f  spring/templateMS/pom.xml clean install jib:dockerBuild -Djib.to.image=template:0.0.1  -DskipTests=true
 mvn -f  spring/documentMS/pom.xml clean install jib:dockerBuild -Djib.to.image=document:0.0.1  -DskipTests=true
-docker build -t angular:0.0.1 -f angular/docsign/Dockerfile .
+docker build -t angular:0.0.1 -f docsign/Dockerfile .
 docker build -t keycloak:0.0.1 -f keycloak/Dockerfile . 
 
 # docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=0000 -p 3306:3306 -d mysql:latest
