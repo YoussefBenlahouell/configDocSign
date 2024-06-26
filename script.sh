@@ -13,15 +13,15 @@ mvn -f  spring/documentMS/pom.xml clean install jib:dockerBuild -Djib.to.image=d
 docker build -t angular:0.0.1 -f angular/docsign/Dockerfile .
 docker build -t keycloak:0.0.1 -f keycloak/Dockerfile . 
 
-docker-compose up
-
-
+# docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=0000 -p 3306:3306 -d mysql:latest
 # docker run -p 8180:8080 keycloak:0.0.1
-# docker run -p 8888:8888 configserver:0.0.1
 # docker run -p 8761:8761 eureka:0.0.1
+# docker run -p 8888:8888 configserver:0.0.1
 # docker run -p 9999:9999 gateway:0.0.1
 # docker run -p 9300:9300 user:0.0.1
 # docker run -p 80:80 angular:0.0.1
 # docker run -p 8543:8543 template:0.0.1
 # docker run -p 9100:9100 document:0.0.1
+
+docker-compose up
 
