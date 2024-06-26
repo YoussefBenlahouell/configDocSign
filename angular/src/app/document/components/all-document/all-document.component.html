@@ -1,0 +1,362 @@
+<div class="app-page-title">
+  <div class="page-title-wrapper">
+    <div class="page-title-heading">
+      <div class="page-title-icon">
+        <i class="icon {{ icon }}"></i>
+      </div>
+      <div>
+        {{ heading }}
+        <div class="page-title-subheading">
+          {{ subheading }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-card mb-3 card">
+  <div class="card-header" *ngIf="lengthCHekedList > 0">
+    <div class="card-header-title font-size-lg text-capitalize fw-normal">
+      <p *ngIf="lengthCHekedList > 1">
+        {{ lengthCHekedList }} Documents Selected
+      </p>
+      <p *ngIf="lengthCHekedList == 1">
+        {{ lengthCHekedList }} Document Selected
+      </p>
+    </div>
+    <div class="">
+      <button class="border-0 btn-transition btn btn-outline-info">
+        <i class="fa fa-fw" aria-hidden="true" title="copy"></i>
+      </button>
+
+      <button class="border-0 btn-transition btn btn-outline-secondary">
+        <i class="fa fa-fw" aria-hidden="true" title="share"></i>
+      </button>
+      <button class="border-0 btn-transition btn btn-outline-danger">
+        <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+      </button>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table
+      class="align-middle text-truncate mb-0 table table-borderless table-hover"
+    >
+      <thead>
+        <tr>
+          <th class="text-center">
+            <input
+              type="checkbox"
+              [(ngModel)]="masterSelected"
+              name="list_name"
+              value="m1"
+              (change)="checkUncheckAll()"
+            />
+          </th>
+          <th class="text-center">#</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Owner</th>
+          <th class="text-center">Created Date</th>
+          <th class="text-center">status</th>
+          <th class="text-center">Folder</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let document of documents
+              | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
+            let i = index
+          "
+        >
+          <td class="text-center" style="width: 20px">
+            <input
+              type="checkbox"
+              [(ngModel)]="document.isSelected"
+              name="list_name"
+              value="{{ document.idDocumentSign }}"
+              (change)="isAllSelected()"
+            />
+          </td>
+          <td class="text-center text-muted" style="width: 40px">
+            #{{ i + 1 }}
+          </td>
+
+          <td class="text-center">{{ document.nameDocumentSign }}</td>
+          <td class="text-center">
+            {{ document.createdBy.fnameUser }}&ensp;
+            {{ document.createdBy.lnameUser }}
+          </td>
+          <td class="text-center">
+            {{ document.creationDateDocumentSign | date: "MMM d, y, h:mm a" }}
+          </td>
+          <td class="text-center">
+            <div
+              class="badge rounded-pill bg-success"
+              [ngClass]="{
+                'bg-info': document.status == 'send',
+                'bg-danger': document.status == 'ignored',
+                'bg-warm-flame': document.status == 'consulted',
+                'bg-success': document.status == 'ended',
+                'bg-warning': document.status == 'expired'
+              }"
+            >
+              {{ document.status }}
+            </div>
+          </td>
+
+          <td class="text-center">
+            <p *ngIf="document.folder != null">
+              {{ document.folder.nameFolder }}
+            </p>
+            <p *ngIf="document.folder == null"></p>
+          </td>
+
+          <td class="text-center">
+            <a href="{{ document.filePdf.data }}"
+              ><i
+                style="color: rgb(59, 143, 59)"
+                class="fa fa-fw"
+                aria-hidden="true"
+                title="download"
+                ></i
+              ></a
+            >
+            <button
+              class="border-0 btn-transition btn btn-outline-info"
+              style="padding: 2px 2px"
+              (click)="onCopy(document)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="copy"></i>
+            </button>
+
+            <button
+              class="border-0 btn-transition btn btn-outline-secondary"
+              style="padding: 2px 2px"
+              (click)="onShare(contentShare, document.idDocumentSign)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="share"></i>
+            </button>
+            <button
+              class="border-0 btn-transition btn btn-outline-danger"
+              style="padding: 2px 2px"
+              (click)="onSubmit(content, document.idDocumentSign)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+            </button>
+            <button
+              class="border-0 btn-transition btn btn-outline-primary"
+              style="padding: 2px 2px"
+              (click)="onFolder(contentfolder, document.idDocumentSign)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="folder-open-o"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-block p-4 text-center card-footer">
+    <div class="btn">
+      <ngb-pagination
+        [pageSize]="pageSize"
+        [collectionSize]="lenghtlisttmeplate"
+        [(page)]="page"
+        aria-label="Default pagination"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmation</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="font-icon-wrapper">
+      <i class="pe-7s-attention py-3" style="color: rgb(177, 20, 20)"> </i>
+      <h3>Are you sure to delete this document</h3>
+      <h6>This change will reflect in your portal .</h6>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="onDelete()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentShare let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Share</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="main-card mb-3 card">
+      <div class="table-responsive">
+        <table
+          class="align-middle text-truncate mb-0 table table-borderless table-hover"
+        >
+          <thead>
+            <tr>
+              <th class="text-center">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="masterSelectedUser"
+                  name="user_name"
+                  value="m1"
+                  (change)="checkUncheckAllUser()"
+                />
+              </th>
+              <th class="text-center">#</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Designed Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users; let i = index">
+              <td class="text-center" style="width: 20px">
+                <input
+                  type="checkbox"
+                  [(ngModel)]="user.isSelected"
+                  name="user_name"
+                  value="{{ user.idUser }}"
+                  (change)="isAllSelectedUser()"
+                />
+              </td>
+              <td class="text-center text-muted" style="width: 40px">
+                #{{ i + 1 }}
+              </td>
+
+              <td class="text-center">
+                {{ user.fnameUser }}&ensp;
+                {{ user.lnameUser }}
+              </td>
+              <td class="text-center">
+                {{ user.emailUser }}
+              </td>
+
+              <td class="text-center">
+                <button
+                  [ngClass]="
+                    user.canShare == true
+                      ? 'btn-secondary'
+                      : 'btn-outline-secondary'
+                  "
+                  class="border-0 btn-transition btn"
+                  style="padding: 2px 2px"
+                  (click)="user.canShare = !user.canShare"
+                >
+                  <i class="fa fa-fw" aria-hidden="true" title="share"></i>
+                </button>
+                <button
+                  [ngClass]="
+                    user.canDelete == true ? 'btn-danger' : 'btn-outline-danger'
+                  "
+                  class="border-0 btn-transition btn"
+                  style="padding: 2px 2px"
+                  (click)="user.canDelete = !user.canDelete"
+                >
+                  <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-block p-4 text-center card-footer">
+        <div class="btn"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="oncConfirmShare()"
+    >
+      Share
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentfolder let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add to folder</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="main-card mb-3 card">
+      <div class="table-responsive">
+        <table
+          class="align-middle text-truncate mb-0 table table-borderless table-hover"
+        >
+          <thead>
+            <tr>
+              <th class="text-center"></th>
+              <th class="text-center">#</th>
+              <th class="text-center">Name Fodler</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let folder of listfolder; let i = index">
+              <td class="text-center" style="width: 20px">
+                <input
+                  type="radio"
+                  name="faoldername"
+                  value="{{ folder.idFolder }}"
+                  (change)="folderchanger(folder)"
+                />
+              </td>
+              <td class="text-center text-muted" style="width: 40px">
+                #{{ i + 1 }}
+              </td>
+
+              <td class="text-center">
+                {{ folder.nameFolder }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-block p-4 text-center card-footer">
+        <div class="btn"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="oncConfirmFolder(folder)"
+    >
+      Add to folder
+    </button>
+  </div>
+</ng-template>

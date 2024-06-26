@@ -1,0 +1,426 @@
+<div
+  [class]="'app-sidebar sidebar-shadow' + (config$ | async).sidebarTheme"
+  (mouseover)="sidebarHover()"
+  (mouseout)="sidebarHover()"
+>
+  <div class="app-header__logo" style="padding-left: 10px">
+    <a href="http://localhost:4200/dashbord">
+      <div style="height: 47px; width: 140px" class="logo-src"></div>
+    </a>
+    <div class="header__pane ms-auto">
+      <button
+        type="button"
+        class="hamburger close-sidebar-btn hamburger--elastic"
+        [ngClass]="{ 'is-active': globals.toggleSidebar }"
+        (click)="toggleSidebar()"
+      >
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div class="app-sidebar-content dd-header-bg-1">
+    <div class="app-sidebar-scroll">
+      <perfect-scrollbar [autoPropagation]="true">
+        <div class="v-sidebar-menu vsm-default">
+          <div class="vsm-list">
+            <ngb-accordion
+              [destroyOnHide]="false"
+              [closeOthers]="true"
+              [activeIds]="extraParameter"
+            >
+              <ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div class="vsm-header"></div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="dashboardsMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-display1"></i>
+                    <span class="vsm-title">Dashboards</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLink="/dashbord"
+                          routerLinkActive="active-item"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          class="vsm-link"
+                          ><span class="vsm-title">Analytics</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <!--<ngb-panel id="pagesMenu">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-browser"></i>
+                    <span class="vsm-title">Pages</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/pages/login-boxed"
+                          class="vsm-link"
+                          ><span class="vsm-title">Login Boxed</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/pages/register-boxed"
+                          class="vsm-link"
+                          ><span class="vsm-title">Register Boxed</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/pages/forgot-password-boxed"
+                          class="vsm-link"
+                          ><span class="vsm-title"
+                            >Forgot Password Boxed</span
+                          ></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>-->
+              <ngb-panel>
+                <ng-template ngbPanelHeader ngbPanelContent>
+                  <div class="vsm-header">Document</div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div
+                    class="vsm-item"
+                    style="
+                      background-color: rgb(240, 214, 181);
+                      border-radius: 5px;
+                    "
+                  >
+                    <a
+                      routerLinkActive="active-item"
+                      routerLink="document/documentprocess"
+                      class="vsm-link"
+                      ><i class="vsm-icon pe-7s-news-paper"> </i>
+                      <span class="vsm-title"> Start to Sign Document</span></a
+                    >
+                    <i class="vsm-arrow"></i>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+
+              <ngb-panel id="FilterDoc">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-filter"> </i>
+
+                    <span class="vsm-title">Filters</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/alldocument"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">All Documents</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/createdbyme"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Created by me</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/sharedwithme"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">shared with me</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="StatusDoc">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-edit"></i>
+                    <span class="vsm-title">Satuts</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <!-- <div class="vsm-item">
+                        <a routerLinkActive="active-item" routerLink="/components/tabs" class="vsm-link"><span
+                          class="vsm-title">Tabs</span></a>
+                      </div> -->
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/status/ignored"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Ignored </span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/status/send"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Send</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/status/ended"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title"> Ended</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/document/status/expired"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Expired</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="FolderDoc">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-folder"></i>
+                    <span class="vsm-title">Folder</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/forms/controls"
+                          class="vsm-link"
+                          ><span class="vsm-title">Add Folder</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/forms/layouts"
+                          class="vsm-link"
+                          ><span class="vsm-title">Delete Folder</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+
+              <ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div class="vsm-header">Templates</div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel>
+                <ng-template ngbPanelHeader>
+                  <div
+                    class="vsm-item"
+                    style="
+                      background-color: rgb(240, 214, 181);
+                      border-radius: 5px;
+                    "
+                  >
+                    <i class="vsm-icon pe-7s-display2"> </i>
+                    <a
+                      routerLinkActive="active-item"
+                      routerLink="template/templateprocess"
+                      class="vsm-link"
+                    >
+                      <span class="vsm-title">Start to Create Template</span></a
+                    ><i class="vsm-arrow"></i>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="FilterTemplate">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-filter"> </i>
+                    <span class="vsm-title">Filter</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/template/alltemplate"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">All Templates</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/template/createdbyme"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Created by me</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/template/sharedwithme"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Shared with me</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+              <ngb-panel id="Foldertem">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-folder"></i>
+                    <span class="vsm-title">Folder</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/forms/controls"
+                          class="vsm-link"
+                          ><span class="vsm-title">Add Folder</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/forms/layouts"
+                          class="vsm-link"
+                          ><span class="vsm-title">Delete Folder</span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+
+              <ngb-panel *ngIf="isadmin">
+                <ng-template ngbPanelHeader>
+                  <div class="vsm-header">Teams</div>
+                </ng-template>
+              </ngb-panel>
+
+              <ngb-panel *ngIf="isadmin" id="Teams">
+                <ng-template ngbPanelHeader>
+                  <button ngbPanelToggle class="vsm-link">
+                    <i class="vsm-icon pe-7s-users"></i>
+                    <span class="vsm-title">Teams</span>
+                    <i class="vsm-arrow"></i>
+                  </button>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <div class="vsm-dropdown">
+                    <div class="vsm-list">
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/members"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Members</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/groups"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Groups</span></a
+                        >
+                      </div>
+                      <div class="vsm-item">
+                        <a
+                          routerLinkActive="active-item"
+                          routerLink="/dashbord/organization"
+                          class="vsm-link"
+                        >
+                          <span class="vsm-title">Organization </span></a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+
+            <div class="vsm-header">Contact</div>
+            <div class="vsm-item">
+              <a
+                routerLink="/dashbord/contact/"
+                routerLinkActive="active-item"
+                class="vsm-link"
+              >
+                <i class="vsm-icon pe-7s-id"> </i>
+
+                <span class="vsm-title">Contact</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>

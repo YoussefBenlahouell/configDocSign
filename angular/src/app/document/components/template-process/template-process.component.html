@@ -1,0 +1,72 @@
+<link
+  href="https://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,600,700"
+  rel="stylesheet"
+  type="text/css"
+/>
+<link
+  href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+  rel="stylesheet"
+/>
+<div class="app-page-title pb-0">
+  <div style="padding-left: 15%" class="page-title-wrapper">
+    <div class="page-title-heading">
+      <ul class="timeline" id="timeline">
+        <li class="li pt-1 complete">
+          <div class="status">
+            <h6 class="pt-3">Type of Signature</h6>
+          </div>
+        </li>
+        <li class="li pt-1" [ngClass]="i >= 1 ? 'complete' : ''">
+          <div class="status">
+            <h6 class="pt-3">Upload File</h6>
+          </div>
+        </li>
+        <li class="li pt-1" [ngClass]="i >= 2 ? 'complete' : ''">
+          <div class="status">
+            <h6 class="pt-3">Add Recipient</h6>
+          </div>
+        </li>
+        <li class="li pt-1" [ngClass]="i >= 3 ? 'complete' : ''">
+          <div class="status">
+            <h6 class="pt-3">Prepare Document</h6>
+          </div>
+        </li>
+        <li class="li pt-1" [ngClass]="i >= 4 ? 'complete' : ''">
+          <div class="status">
+            <h6 class="pt-3">Mail Setup</h6>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<app-typesignature (addi)="next($event)" *ngIf="i == 0"></app-typesignature>
+<app-uplodedocument
+  (deletei)="prior($event)"
+  (addi)="next($event)"
+  *ngIf="i == 1"
+></app-uplodedocument>
+<!--<app-placeholder-property
+  (addPlaceholderOut)="addPlaceholder($event)"
+  (deletePlaceholderOut)="deletePlaceholder($event)"
+  *ngIf="i == 2"
+></app-placeholder-property>-->
+<app-recipient
+  (deletei)="prior($event)"
+  (addi)="next($event)"
+  *ngIf="i == 2"
+></app-recipient>
+<app-konva
+  (addi)="next($event)"
+  (deletei)="prior($event)"
+  *ngIf="i == 3"
+></app-konva>
+
+<app-email-configuration
+  (deletei)="prior($event)"
+  (save)="onTermine($event)"
+  (mailoutput)="mailInfo($event)"
+  *ngIf="i == 4"
+>
+</app-email-configuration>

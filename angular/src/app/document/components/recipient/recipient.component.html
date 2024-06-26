@@ -1,0 +1,443 @@
+<div class="mx-5">
+  <div class="col-md-3"></div>
+  <div class="col-md-12 mt-5">
+    <div class="mx-5">
+      <div class="main-card mb-3 card">
+        <div class="card-body row">
+          <div class="col-md-4"></div>
+          <div class="p-5 col-md-6">
+            <span class="px-3">Taskflow : </span>
+            <div class="form-check form-check-inline">
+              <input
+                [(ngModel)]="pipeline"
+                class="form-check-input"
+                type="radio"
+                name="typePipeline"
+                id="inlineRadio1"
+                value="parallel"
+                (change)="changetypepipeline('parallel')"
+              />
+              <label class="form-check-label" for="inlineRadio1"
+                >parallel</label
+              >
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                [(ngModel)]="pipeline"
+                class="form-check-input"
+                type="radio"
+                name="typePipeline"
+                id="inlineRadio2"
+                value="serial"
+                (change)="changetypepipeline('serial')"
+              />
+              <label class="form-check-label" for="inlineRadio2"> serial</label>
+            </div>
+          </div>
+
+          <div cdkDropList (cdkDropListDropped)="drop($event)">
+            <div
+              class="mx-4"
+              class=" "
+              *ngFor="let place of placerholders; let i = index"
+              cdkDrag
+            >
+              <div
+                class="card m-3 p-3"
+                [ngStyle]="{
+                  'border-width': '2px 2px  8px 2px',
+                  'border-color': place.colorPlaceholder,
+                  color: place.colorPlaceholder
+                }"
+              >
+                <div class="d-flex justify-content-between">
+                  <div class="col-md-6 d-flex">
+                    <div class="col-md-2 pt-3">
+                      <h3 *ngIf="pipeline == 'serial'">
+                        <b>{{ i + 1 }}</b>
+                      </h3>
+                      <div class="col-md-2">
+                        <div cdkDragHandle>
+                          <div
+                            *ngIf="pipeline == 'serial'"
+                            class="font-icon-wrapper"
+                            style="
+                              margin: 0px;
+                              border-width: 0px;
+                              padding: 20px 0px 0px 0px;
+                            "
+                          >
+                            <i class="fa fa-fw" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-10">
+                      <div
+                        class="inp-border"
+                        [ngStyle]="{
+                          'background-color': place.colorPlaceholder
+                        }"
+                      >
+                        <label
+                          for="fullName"
+                          style="
+                            color: #000;
+                            font-weight: bolder;
+                            padding-left: 5px;
+                          "
+                          >Recipient's Role
+                        </label>
+                        <input
+                          (change)="
+                            valuechangeNamePlaceholder(place.namePlaceholder, i)
+                          "
+                          [(ngModel)]="place.namePlaceholder"
+                          class="input"
+                          type="text"
+                          name="name1"
+                          placeholder="(RH,client1,client2....)"
+                          required
+                        />
+                      </div>
+                      <div
+                        class="inp-border"
+                        [ngStyle]="{
+                          'background-color': place.colorPlaceholder
+                        }"
+                      >
+                        <label
+                          for="phoneRecipient"
+                          style="
+                            color: #000;
+                            font-weight: bolder;
+                            padding-left: 5px;
+                          "
+                          >Recipient's Phone Number
+                        </label>
+                        <input
+                          (change)="
+                            valuechangephonePlaceholder(place.phoneRecipient, i)
+                          "
+                          [(ngModel)]="place.phoneRecipient"
+                          class="input"
+                          type="text"
+                          name="phoneRecipient"
+                          placeholder="phone Number"
+                          required
+                        />
+                      </div>
+                      <div
+                        class="inp-border"
+                        [ngStyle]="{
+                          'background-color': place.colorPlaceholder
+                        }"
+                      >
+                        <label
+                          for="fullName"
+                          style="
+                            color: #000;
+                            font-weight: bolder;
+                            padding-left: 5px;
+                          "
+                          >Recipient's name</label
+                        >
+                        <button
+                          (click)="contactlist(content, i)"
+                          style="
+                            position: relative;
+                            left: 55%;
+                            top: 0px;
+                            border: 0px;
+                            padding: 0px;
+                            height: 27px;
+                          "
+                          class="btn"
+                        >
+                          <div
+                            class="font-icon-wrapper border: 0px;padding: 0px"
+                          >
+                            <i
+                              class="fa fa-fw"
+                              aria-hidden="true"
+                              title="vcard-o"
+                              ></i
+                            >
+                            <p></p>
+                          </div>
+                        </button>
+                        <input
+                          (change)="
+                            valuechangeNameRecipient(place.nameRecipient, i)
+                          "
+                          [(ngModel)]="place.nameRecipient"
+                          class="input"
+                          type="text"
+                          name="fullName"
+                          required
+                          placeholder="Full name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 d-flex">
+                    <div class="col-md-10">
+                      <div
+                        class="pt-4 ps-3 pb-1 pr-3"
+                        style="padding-right: 20px; height: 32%"
+                      >
+                        <div>
+                          <div
+                            class="custom-radio custom-control form-check form-check-inline"
+                          >
+                            <input
+                              [ngStyle]="{
+                                'accent-color': place.colorPlaceholder
+                              }"
+                              (change)="radioChange('needSign', i)"
+                              type="radio"
+                              name="{{ i }}"
+                              class="form-check-input"
+                              value="needSign"
+                              checked
+                            />
+                            <label class="form-label form-check-label"
+                              ><i
+                                class="fa fa-fw"
+                                aria-hidden="true"
+                                title="pencil-square-o"
+                                ></i
+                              >Need To Sign</label
+                            >
+                          </div>
+                          <div
+                            class="custom-radio custom-control form-check form-check-inline"
+                          >
+                            <input
+                              [ngStyle]="{
+                                'accent-color': place.colorPlaceholder
+                              }"
+                              (change)="radioChange('ReceiveCopy', i)"
+                              type="radio"
+                              name="{{ i }}"
+                              class="form-check-input"
+                              value="ReceiveCopy"
+                            />
+                            <label
+                              for="exampleCustomRadio2"
+                              class="form-label form-check-label"
+                              ><i
+                                class="fa fa-fw"
+                                aria-hidden="true"
+                                title="paste"
+                                ></i
+                              >Receives a Copy</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <div class="">
+                        <div
+                          class="inp-border"
+                          [ngStyle]="{
+                            'background-color': place.colorPlaceholder
+                          }"
+                        >
+                          <label
+                            for="E-mail"
+                            style="
+                              color: #000;
+                              font-weight: bolder;
+                              padding-left: 5px;
+                            "
+                          >
+                            Recipient's Email
+                          </label>
+                          <input
+                            (change)="
+                              valuechangeEmailRecipient(place.emailRecipient, i)
+                            "
+                            [(ngModel)]="place.emailRecipient"
+                            class="input"
+                            type="text"
+                            name="E-mail"
+                            required
+                            placeholder="Email"
+                          />
+                        </div>
+                      </div>
+                      <div class="">
+                        <div
+                          class="inp-border"
+                          [ngStyle]="{
+                            'background-color': place.colorPlaceholder
+                          }"
+                        >
+                          <label
+                            for="E-mail"
+                            style="
+                              color: #000;
+                              font-weight: bolder;
+                              padding-left: 5px;
+                            "
+                          >
+                            Recipient's Organization
+                          </label>
+                          <input
+                            (change)="
+                              valuechangeOrgRecipient(place.orgRecipient, i)
+                            "
+                            [(ngModel)]="place.orgRecipient"
+                            class="input"
+                            type="text"
+                            name="orgRecipient"
+                            required
+                            placeholder="organization Recipient"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="widget-content-right pt-3">
+                        <button class="btn" (click)="deleteRole(i)">
+                          <div class="font-icon-wrapper">
+                            <i
+                              class="fa fa-fw"
+                              [ngStyle]="{
+                                color: place.colorPlaceholder
+                              }"
+                              aria-hidden="true"
+                              title="user-times"
+                              ></i
+                            >
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <div class="col-md-6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h6 *ngIf="isempty" style="color: rgb(204, 49, 49)">
+            you need to fill all fields
+          </h6>
+          <div class="widget-content-left mx-3 pt-2 ps-3 pb-1">
+            <button class="mb-2 me-2 btn" (click)="addRole()">
+              <div class="font-icon-wrapper">
+                <i class="fa fa-fw" aria-hidden="true" title="user-plus"></i>
+                <p>Add Recipient</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3 mx-4 pt-5 pb-2">
+          <div class="position-relative">
+            <div class="position-absolute bottom-0 start-0">
+              <button class="btn btn-outline-info" (click)="prior()">
+                <i class="fa fa-fw" aria-hidden="true" title="arrow-left"></i>
+                Prior Step
+              </button>
+            </div>
+            <div class="position-absolute bottom-0 end-0">
+              <button class="btn btn-outline-info ml-3" (click)="next()">
+                Next Step
+                <i class="fa fa-fw" aria-hidden="true" title="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Contacts list</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+
+  <div class="main-card card">
+    <div class="m-3">
+      <div class="table-responsive">
+        <table
+          class="align-middle text-truncate mb-0 table table-borderless table-hover"
+        >
+          <thead>
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">Full Name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Phone Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let contact of contacts
+                  | filter: searchText
+                  | slice
+                    : (page - 1) * pageSize
+                    : (page - 1) * pageSize + pageSize;
+                let i = index
+              "
+            >
+              <td class="text-center text-muted" style="width: 40px">
+                #{{ i + 1 }}
+              </td>
+              <td class="text-center">
+                <button class="btn" (click)="choisecontact(contact)">
+                  {{ contact.fullNameContact }}
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn" (click)="choisecontact(contact)">
+                  {{ contact.emailContact }}
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn" (click)="choisecontact(contact)">
+                  {{ contact.telContact }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-block p-4 text-center card-footer">
+        <div class="btn">
+          <ngb-pagination
+            [pageSize]="pageSize"
+            [collectionSize]="lenghtlistcontact"
+            [(page)]="page"
+            aria-label="Default pagination"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="c('Close click')"
+      >
+        Cancel
+      </button>
+      <input type="submit" value="Edit" class="btn btn-outline-warning" />
+    </div>
+  </div>
+</ng-template>

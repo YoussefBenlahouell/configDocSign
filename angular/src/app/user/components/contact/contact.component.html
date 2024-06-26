@@ -1,0 +1,162 @@
+<div class="main-card mb-3 card">
+  <div class="card-header" *ngIf="lengthCHekedList > 0">
+    <div class="card-header-title font-size-lg text-capitalize fw-normal">
+      <p *ngIf="lengthCHekedList > 1">
+        {{ lengthCHekedList }} Contacts Selected
+      </p>
+      <p *ngIf="lengthCHekedList == 1">
+        {{ lengthCHekedList }} Contact Selected
+      </p>
+    </div>
+    <div class="">
+      <button class="border-0 btn-transition btn btn-outline-danger">
+        <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+      </button>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table
+      class="align-middle text-truncate mb-0 table table-borderless table-hover"
+    >
+      <thead>
+        <tr>
+          <th class="text-center">
+            <input
+              type="checkbox"
+              [(ngModel)]="masterSelected"
+              name="list_name"
+              value="m1"
+              (change)="checkUncheckAll()"
+            />
+          </th>
+          <th class="text-center">#</th>
+          <th class="text-center">Full Name</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Phone Number Date</th>
+          <th class="text-center">Oragnisation</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let contact of contacts
+              | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
+            let i = index
+          "
+        >
+          <td class="text-center" style="width: 20px">
+            <input
+              type="checkbox"
+              [(ngModel)]="contact.isSelected"
+              name="list_name"
+              value="{{ contact.idContact }}"
+              (change)="isAllSelected()"
+            />
+          </td>
+          <td class="text-center text-muted" style="width: 40px">
+            #{{ i + 1 }}
+          </td>
+          <td class="text-center">{{ contact.fullNameContact }}</td>
+          <td class="text-center">
+            {{ contact.emailContact }}
+          </td>
+          <td class="text-center">
+            {{ contact.telContact }}
+          </td>
+          <td class="text-center">
+            {{ contact.companyContact }}
+          </td>
+
+          <td class="text-center">
+            <button
+              class="border-0 btn-transition btn btn-outline-warning"
+              style="padding: 2px 2px"
+              (click)="onEdit(contact.idContact)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="edit"></i>
+            </button>
+            <button
+              class="border-0 btn-transition btn btn-outline-danger"
+              style="padding: 2px 2px"
+              (click)="onSubmit(content, contact.idContact)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-block p-4 text-center card-footer">
+    <div class="btn">
+      <ngb-pagination
+        [pageSize]="pageSize"
+        [collectionSize]="lenghtlistcontact"
+        [(page)]="page"
+        aria-label="Default pagination"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmation</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="font-icon-wrapper">
+      <i class="pe-7s-attention py-3" style="color: rgb(177, 20, 20)"> </i>
+      <h3>Are you sure to delete this contact</h3>
+      <h6>This change will reflect in your portal</h6>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="onDelete()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentShare let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="main-card mb-3 card">
+      <div class="table-responsive">
+        <p>lena bech na3mel el add</p>
+      </div>
+      <div class="d-block p-4 text-center card-footer">
+        <div class="btn"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-outline-danger"
+      (click)="oncConfirmAdd()"
+    >
+      Add
+    </button>
+  </div>
+</ng-template>

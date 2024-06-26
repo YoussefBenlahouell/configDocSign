@@ -1,0 +1,366 @@
+<section class="wrapper">
+  <aside>
+    <div class="astronaut-container">
+      <h2 class="secondary">Welcome to</h2>
+      <img
+        class="pb-5"
+        src="https://i.ibb.co/z2M65GS/Nouveau-projet-2.png"
+        style="width: 50%"
+      />
+
+      <div class="astronaut-image"></div>
+    </div>
+    <p class="meta meta-astronaut" style="width: 70%">
+      To keep connected with us please sign up with your personal info.
+    </p>
+    <svg
+      xmlns="https://i.ibb.co/LZgj6Mf/step1-en.gif"
+      id="comet"
+      x="0"
+      y="0"
+      version="1.1"
+      viewBox="0 0 64 49.3"
+      xml:space="preserve"
+    >
+      <linearGradient
+        id="SVGID_1_"
+        x1="8.0402"
+        x2="55.9598"
+        y1="21.6064"
+        y2="21.6064"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="#fff200" stop-opacity=".2" />
+        <stop offset=".9946" stop-color="#f39c1b" />
+      </linearGradient>
+      <path
+        fill="url(#SVGID_1_)"
+        d="M10.1 29.4L49 1 20 39.4c-2.4 3.1-6.8 3.7-9.9 1.4C7 38.4 6.4 34 8.7 30.9c.4-.6.9-1.1 1.4-1.5z"
+      />
+    </svg>
+    <svg
+      xmlns="https://i.ibb.co/LZgj6Mf/step1-en.gif"
+      id="comet"
+      x="0"
+      y="0"
+      version="1.1"
+      viewBox="0 0 64 49.3"
+      xml:space="preserve"
+    >
+      <linearGradient
+        id="SVGID_1_"
+        x1="8.0402"
+        x2="55.9598"
+        y1="21.6064"
+        y2="21.6064"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop offset="0" stop-color="#fff200" stop-opacity=".2" />
+        <stop offset=".9946" stop-color="#f39c1b" />
+      </linearGradient>
+      <path
+        fill="url(#SVGID_1_)"
+        d="M10.1 29.4L49 1 20 39.4c-2.4 3.1-6.8 3.7-9.9 1.4C7 38.4 6.4 34 8.7 30.9c.4-.6.9-1.1 1.4-1.5z"
+      />
+    </svg>
+  </aside>
+  <main>
+    <div class="form-container">
+      <h2 class="primary">Create Account</h2>
+      <p>
+        If you already have an account go to :<u>
+          <a href="http://localhost:4200/dashbord">LoginPage </a></u
+        >
+      </p>
+      <form [formGroup]="reactiveform" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <section>
+              <input
+                required
+                formControlName="firstName"
+                [ngClass]="{ 'is-invalid': onsubmitted && h.firstName.errors }"
+                type="text"
+                class="semi-input"
+              />
+              <label>First Name</label>
+
+              <div class="form-icon">
+                <div class="font-icon-wrapper"><i class="pe-7s-user"> </i></div>
+              </div>
+            </section>
+            <div
+              *ngIf="h.firstName.errors && h.firstName.touched"
+              class="text-warning"
+            >
+              <div *ngIf="h.firstName.errors.required">
+                First Name is required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" style="padding-left: 2%">
+            <section>
+              <input
+                required
+                type="text"
+                class="semi-input"
+                formControlName="lastName"
+                [ngClass]="{ 'is-invalid': onsubmitted && h.lastName.errors }"
+              />
+              <label>Last Name</label>
+              <div class="form-icon">
+                <div class="font-icon-wrapper"><i class="pe-7s-user"> </i></div>
+              </div>
+            </section>
+            <div
+              *ngIf="h.lastName.errors && h.lastName.touched"
+              class="text-warning"
+            >
+              <div *ngIf="h.lastName.errors.required">
+                Last Name is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section>
+          <input
+            required
+            type="text"
+            class="form-control"
+            formControlName="email"
+            [ngClass]="{ 'is-invalid': onsubmitted && h.email.errors }"
+          />
+          <label>Email</label>
+          <div class="form-icon">
+            <div class="font-icon-wrapper"><i class="pe-7s-mail"> </i></div>
+          </div>
+        </section>
+        <div *ngIf="h.email.errors && h.email.touched" class="text-warning">
+          <div *ngIf="h.email.errors.required">Email is required</div>
+          <div *ngIf="h.email.errors.email">
+            Email must be a valid email address
+          </div>
+          <div *ngIf="h.email.errors.missingDomain && !h.email.errors.email">
+            Your email is missing a domain name
+          </div>
+        </div>
+        <div *ngIf="iserror" style="color: rgb(180, 47, 47)">
+          {{ errors }}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <section>
+              <input
+                type="password"
+                autocomplete="PASSWORD"
+                class="semi-input"
+                formControlName="password"
+                [ngClass]="{ 'is-invalid': onsubmitted && h.password.errors }"
+                required
+              />
+              <label>Password</label>
+              <div class="form-icon">
+                <div class="font-icon-wrapper">
+                  <i class="pe-7s-unlock"> </i>
+                </div>
+              </div>
+            </section>
+            <div
+              *ngIf="h.password.touched && h.password.errors"
+              class="text-warning"
+            >
+              <div *ngIf="h.password.errors.required">Password is required</div>
+              <div col-md-6 *ngIf="h.password.errors.minlength">
+                Password must be at least 8 characters
+              </div>
+              <div col-md-6 *ngIf="h.password.errors.containUpperCase">
+                Must contain at least 1 in Capital Case!
+              </div>
+              <div col-md-6 *ngIf="h.password.errors.containsymbol">
+                Must contain at least 1 Special Character
+              </div>
+              <div col-md-6 *ngIf="h.password.errors.containchiffre">
+                Must contain at least 1 Chiffre
+              </div>
+              <div col-md-6 *ngIf="h.password.errors.passwordIncludeName">
+                Must not contain first or last name.
+              </div>
+              <!--  <div class="card-body">
+                  <p>
+                    <ngb-progressbar type="danger " [value]="25">bad </ngb-progressbar>
+                  </p>
+                  <p>
+                    <ngb-progressbar type="warning" [value]="50">moyen
+                      <b>2 of 4</b>...
+                    </ngb-progressbar>
+                  </p>
+                  <p>
+                    <ngb-progressbar type="info" [value]="75" [striped]="true" [animated]="true">
+                      <i>good</i>
+                    </ngb-progressbar>
+                  </p>
+                  <p>
+                    <ngb-progressbar type="success" [value]="100" [striped]="true">succes</ngb-progressbar>
+                  </p>
+                </div>
+             -->
+            </div>
+          </div>
+          <div class="col-md-6" style="padding-left: 2%">
+            <section>
+              <input
+                required
+                type="password"
+                class="semi-input"
+                formControlName="confirmpassword"
+                [ngClass]="{
+                  'is-invalid': onsubmitted && h.confirmpassword.errors
+                }"
+              />
+              <label>Confirm Password</label>
+              <div class="form-icon">
+                <div class="font-icon-wrapper">
+                  <i class="pe-7s-unlock"> </i>
+                </div>
+              </div>
+            </section>
+
+            <div
+              *ngIf="h.confirmpassword.errors && h.confirmpassword.touched"
+              class="text-warning"
+            >
+              <div *ngIf="h.confirmpassword.errors.required">
+                Confirm Password is required
+              </div>
+              <div *ngIf="h.confirmpassword.errors.mustmatch">
+                Passwords must match
+              </div>
+              <div col-md-6 *ngIf="h.confirmpassword.errors.minlength"></div>
+            </div>
+          </div>
+        </div>
+
+        <section>
+          <input
+            type="text"
+            name="Organization"
+            id="Organization"
+            formControlName="Organization"
+            [ngClass]="{ 'is-invalid': onsubmitted && h.Organization.errors }"
+            autocomplete="Orangization Name"
+            required
+            class="form-control"
+          />
+          <label for="name">Organization Name</label>
+          <div class="form-icon">
+            <div class="font-icon-wrapper"><i class="pe-7s-users"> </i></div>
+          </div>
+        </section>
+        <div
+          *ngIf="h.Organization.errors && h.Organization.touched"
+          class="text-warning"
+        >
+          <div *ngIf="h.Organization.errors.required">
+            Organization is required
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <section>
+              <select
+                class="form-selct"
+                (change)="onOptionsSelected($event)"
+                formControlName="country"
+                name="country"
+                id="country"
+                required
+              >
+                <option value="" selected></option>
+                <option
+                  *ngFor="let country of countries"
+                  [value]="country.name"
+                >
+                  {{ country.name }}
+                </option>
+              </select>
+
+              <label *ngIf="isempty" for="country"> Country </label>
+              <label class="label-select" *ngIf="!isempty" for="country">
+                Country
+              </label>
+              <div class="form-icon">
+                <div class="font-icon-wrapper">
+                  <i class="pe-7s-map-2"> </i>
+                </div>
+              </div>
+            </section>
+            <div *ngIf="isempty && ischange" class="text-warning">
+              <div *ngIf="h.email.errors.required">country is required</div>
+            </div>
+          </div>
+          <div class="col-md-6" style="padding-left: 2%">
+            <section>
+              <input
+                formControlName="tel"
+                [(ngModel)]="numbercountry"
+                value="{'is-invalid':onsubmitted && h.tel.errors }"
+                type="text"
+                name="name"
+                id="name"
+                autocomplete="Phone Number"
+                required
+                class="semi-input"
+              />
+              <label for="name">Tel</label>
+
+              <div class="form-icon font-icon-wrapper">
+                <i viewBox="0 0 20 20" class="pe-7s-call"> </i>
+              </div>
+            </section>
+            <div *ngIf="h.tel.errors && h.tel.touched" class="text-warning">
+              <div *ngIf="h.tel.errors.required">Phone Number is required</div>
+              <div *ngIf="h.tel.errors.allnumber">
+                Must contain just numbers
+              </div>
+              <div *ngIf="h.tel.errors.minlength">
+                You need to compose 8 numbers
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-check">
+          <input
+            type="checkbox"
+            id="acceptTerms"
+            class="form-check-input"
+            formControlName="termsandcondition"
+            [ngClass]="{
+              'is-invalid': onsubmitted && h.termsandcondition.errors
+            }"
+          />
+          <div for="acceptTerms" class="form-check-label">
+            Accept Terms & Conditions
+          </div>
+          <div
+            *ngIf="h.termsandcondition.errors && h.termsandcondition.touched"
+            class="text-warning"
+          >
+            Accept Ts & Cs is required
+          </div>
+        </div>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-success btn-lg px-10 mr-6"
+            style="width: 480px"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</section>

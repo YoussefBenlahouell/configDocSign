@@ -1,0 +1,163 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <div class="container rounded bg-white mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-2"></div>
+
+      <div class="col-md-8 border-right">
+        <div class="p-3 py-5">
+          <div class="text-center mb-3">
+            <h4 class="">{{ org.nameOrg }} Profile</h4>
+          </div>
+          <div class="avatar-upload">
+            <!--<div class="avatar-edit">
+              <input
+                (change)="changephoto($event)"
+                type="file"
+                id="imageUpload"
+                accept=".png, .jpg, .jpeg"
+                value="file"
+              />
+              <label for="imageUpload"></label>
+            </div>-->
+            <div class="avatar-preview">
+              <div
+                id="imagePreview"
+                [ngStyle]="{
+                  'background-image': 'url(' + org.logoOrg + ')'
+                }"
+              ></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 my-2">
+              <label class="labels"> Organization Name </label>
+
+              <input
+                disabled
+                name="nameOrg"
+                id="nameOrg"
+                formControlName="nameOrg"
+                type="text"
+                class="form-control"
+                placeholder=" organization name"
+                value=""
+              />
+            </div>
+            <div class="col-md-12 mt-2">
+              <label class="labels">Organization Address</label
+              ><input
+                disabled
+                name="adressOrg"
+                id="adressOrg"
+                formControlName="adressOrg"
+                type="text"
+                class="form-control"
+                value=""
+                placeholder="orgnaization adress"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 my-3">
+              <label class="labels">Organization postal code </label
+              ><input
+                disabled
+                name="postalcodeOrg"
+                id="postalcodeOrg"
+                formControlName="postalcodeOrg"
+                type="text"
+                class="form-control"
+                placeholder="enter postal code"
+                value=""
+              />
+
+              <div class="col-md-12 my-3">
+                <label class="labels">Organization country </label
+                ><input
+                  disabled
+                  name="countryOrg"
+                  id="countryOrg"
+                  formControlName="countryOrg"
+                  type="text"
+                  class="form-control"
+                  placeholder="enter country"
+                  value=""
+                />
+              </div>
+
+              <div class="col-md-12 my-2">
+                <label class="labels"> Responsable Email </label
+                ><input
+                  disabled
+                  name="emailOrg"
+                  id="emailOrg"
+                  formControlName="emailOrg"
+                  type="email"
+                  class="form-control"
+                  placeholder="enter address mail"
+                  value=""
+                />
+              </div>
+
+              <div class="col-md-12 my-2">
+                <label class="labels">Responsable mobile </label
+                ><input
+                  disabled
+                  name="telOrg"
+                  id="telOrg"
+                  formControlName="telOrg"
+                  type="text"
+                  class="form-control"
+                  placeholder="enter mobile number"
+                  value=""
+                />
+              </div>
+            </div>
+
+            <!-- <div class="mt-5 text-center">
+              <button type="submit" class="btn btn-primary profile-button">
+                Save Organization
+              </button>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-md-2 border-right">
+          <!-- <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+          <div class="avatar-upload">
+            <div class="avatar-edit">
+              <input
+                (change)="changephoto($event)"
+                type="file"
+                id="imageUpload"
+                accept=".png, .jpg, .jpeg"
+                value="file"
+              />
+              <label for="imageUpload"></label>
+            </div>
+            <div class="avatar-preview">
+              <div
+                id="imagePreview"
+                [ngStyle]="{
+                  'background-image': 'url(' + user.imageprofileUser + ')'
+                }"
+              ></div>
+            </div>
+          </div>
+
+          <h2 class="font-weight-bold">
+            {{ user.lnameUser }} {{ user.fnameUser }}
+          </h2>
+
+          <span
+            style="font-size: 17px; color: darkblue"
+            class="font-weight-bold"
+            >{{ user.roleUser }}</span
+          ><span class="text-black-50"
+            >Created at : {{ user.creationDateUser | date }}</span
+          ><span> </span>
+        </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

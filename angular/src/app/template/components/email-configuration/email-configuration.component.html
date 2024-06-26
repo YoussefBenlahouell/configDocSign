@@ -1,0 +1,190 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6 mt-5">
+    <div class="main-card mb-3 card">
+      <div class="card-body pt-5">
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(content)">
+          <div class="raw pb-3 mx-5">
+            <div class="raw">
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label"
+                  >Email Subject</label
+                >
+                <input
+                  name="subjectMail"
+                  id="subjectMail"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="subjectMail"
+                />
+              </div>
+              <div class="position-relative mb-3">
+                <label for="exampleText" class="form-label"
+                  >Email Message</label
+                >
+                <textarea
+                  name="messageMail"
+                  id="messageMail"
+                  class="form-control"
+                  formControlName="messageMail"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content">
+              <div class="col-6 form-check form-switch">
+                <input
+                  formControlName="reminderEnabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="reminderEnabled"
+                  (change)="Reminderchange()"
+                />
+                <label class="form-check-label ml-3" for="reminderEnabled">
+                  Reminder</label
+                >
+              </div>
+
+              <label
+                *ngIf="reminder"
+                for="exampleSelect"
+                class="mt-2 mx-3 form-label"
+                >Send Email Every :
+              </label>
+              <div *ngIf="reminder" class="mb-3">
+                <select
+                  formControlName="reminderDelay"
+                  name="reminderDelay"
+                  id="reminderDelay"
+                  class="form-select"
+                >
+                  <option *ngFor="let i of nbrDay">{{ i }}</option>
+                </select>
+              </div>
+              <label
+                *ngIf="reminder"
+                for="exampleSelect"
+                class="mt-2 mx-3 form-label"
+                >Days
+              </label>
+            </div>
+            <div class="d-flex justify-content">
+              <div class="col-6 form-check form-switch">
+                <input
+                  formControlName="exprationEnabled"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="exprationEnabled"
+                  (change)="Rexpirationchange()"
+                />
+                <label class="form-check-label ml-3" for="exprationEnabled">
+                  Expiration</label
+                >
+              </div>
+
+              <label
+                *ngIf="expirtation"
+                for="exampleSelect"
+                class="mt-2 mx-3 form-label"
+                >Operation Expired after :
+              </label>
+              <div *ngIf="expirtation" class="mb-3">
+                <select
+                  formControlName="reminderDelay"
+                  name="reminderDelay"
+                  id="reminderDelay"
+                  class="form-select"
+                >
+                  <option *ngFor="let i of nbrDay">{{ i }}</option>
+                </select>
+              </div>
+              <label
+                *ngIf="expirtation"
+                for="exampleSelect"
+                class="mt-2 mx-3 form-label"
+                >Days
+              </label>
+            </div>
+          </div>
+
+          <div class="row mb-3 m-4 pt-5 pb-2">
+            <div class="position-relative">
+              <div class="position-absolute bottom-0 start-0">
+                <button class="btn btn-outline-primary" (click)="prior()">
+                  <i class="fa fa-fw" aria-hidden="true" title="arrow-left"
+                    ></i
+                  >
+                  Prior Step
+                </button>
+              </div>
+              <div class="position-absolute bottom-0 end-0">
+                <button type="submit" class="btn btn-outline-primary ml-3">
+                  Submit
+
+                  <i class="fa fa-fw" aria-hidden="true" title="check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <form [formGroup]="checkoutForm2" (ngSubmit)="savenewTemplate()">
+    <div class="modal-header">
+      <h4 class="modal-title">Save Template</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="raw pb-3 mx-5">
+        <div class="raw">
+          <div class="position-relative mb-3">
+            <label for="exampleEmail" class="form-label">Name Template</label>
+            <input
+              name="nameTemplate"
+              id="nameTemplate"
+              placeholder=""
+              type="text"
+              class="form-control"
+              formControlName="nameTemplate"
+            />
+          </div>
+          <div class="position-relative mb-3">
+            <label for="exampleText" class="form-label"
+              >Template Description</label
+            >
+            <textarea
+              name="descTemplate"
+              id="descTemplate"
+              class="form-control"
+              formControlName="descTemplate"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="c('Close click')"
+      >
+        Close
+      </button>
+      <button *ngIf="!isedit" type="submit" class="btn btn-info">Save</button>
+      <button type="submit" *ngIf="isedit" class="btn btn-info">Edit</button>
+    </div>
+  </form>
+</ng-template>

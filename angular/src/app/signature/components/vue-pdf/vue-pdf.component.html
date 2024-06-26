@@ -1,0 +1,192 @@
+<div class="row" *ngIf="i == 0">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 mt-5">
+    <div class="main-card card">
+      <div class="card-body pt-5">
+        <div class="row mx-3 justify-content-md-center align-items-center">
+          <div class="col-md-1"></div>
+          <div class="col-md-5">
+            <div class="mb-3 card card-body">
+              <h6 class="card-title">Enter your code in this field below</h6>
+
+              <input
+                style="border-radius: 21.5px"
+                class="btn btn-outline-info mt-2"
+                placeholder="code"
+                value="name"
+                [(ngModel)]="codechamp"
+                #ctrl="ngModel"
+              />
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="mb-3 card card-body">
+              <h7 class="card-title">
+                If you did't receive a code, click on this button.
+              </h7>
+
+              <button
+                (click)="resend()"
+                style="border-radius: 21.5px"
+                class="btn btn-info mt-2"
+              >
+                send
+              </button>
+            </div>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+
+        <div class="row mt-5 mx-4 pt-5 pb-3">
+          <div class="position-relative">
+            <h7 *ngIf="msgerror" style="color: rgb(158, 40, 40)"
+              >code incorrect</h7
+            >
+            <div class="position-absolute bottom-0 start-50">
+              <button
+                style="border-radius: 21.5px"
+                class="btn btn-info mt-2"
+                (click)="confirm()"
+              >
+                Confirm
+                <i class="fa fa-fw" aria-hidden="true" title="arrow-right"></i>
+              </button>
+            </div>
+            <div class="position-absolute bottom-0 end-0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="i == 1">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 mt-5">
+    <div style="text-align: center" class="titre mb-5">
+      <h3>Signature Info</h3>
+    </div>
+
+    <div class="main-card mb-3 card">
+      <div class="card-body pt-5">
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+          <div class="raw pb-3 mx-5">
+            <div class="raw">
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label">Full name</label>
+                <input
+                  name="name"
+                  id="name"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="name"
+                />
+              </div>
+
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label"
+                  >Identity number
+                </label>
+                <input
+                  name="cin"
+                  id="cin"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="cin"
+                />
+              </div>
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label"> Email</label>
+                <input
+                  name="email"
+                  id="email"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="email"
+                />
+              </div>
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label">Adress</label>
+                <input
+                  name="adress"
+                  id="adress"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="adress"
+                />
+              </div>
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label"
+                  >Organization</label
+                >
+                <input
+                  name="organization"
+                  id="organization"
+                  placeholder=""
+                  type="text"
+                  class="form-control"
+                  formControlName="organization"
+                />
+              </div>
+              <div class="position-relative mb-3">
+                <label for="exampleEmail" class="form-label">Objective</label>
+                <input
+                  name="objective"
+                  id="objective"
+                  placeholder=""
+                  type=""
+                  class="form-control"
+                  formControlName="objective"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3 m-4 pt-5 pb-2">
+            <div class="position-relative">
+              <div class="position-absolute bottom-0 end-0">
+                <button type="submit" class="btn btn-outline-primary ml-3">
+                  Submit
+
+                  <i class="fa fa-fw" aria-hidden="true" title="check"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<div *ngIf="i == 2">
+  <ngx-extended-pdf-viewer
+    [showToolbar]="false"
+    [base64Src]="base64"
+    [useBrowserLocale]="true"
+    [showUnverifiedSignatures]="true"
+  >
+  </ngx-extended-pdf-viewer>
+  <div class="position-absolute bottom-0 start-50">
+    <button class="btn btn-warning mx-5" (click)="reject()">Reject</button>
+    <button class="btn btn-success" (click)="confirmSign()">
+      Confirm signature
+    </button>
+  </div>
+</div>
+
+<div *ngIf="i == 3" class="container rounded bg-white mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-8 border-right">
+      <h2 style="color: green">{{ msg }}</h2>
+    </div>
+    <div class="col-md-2 border-right"></div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="example-box" *ngFor="let movie of movies; index as i" cdkDrag>
+    <div class="">{{ i + 1 }}</div>
+    <div class="w-10">
+      <i class="" cdkDragHandle>reorder</i>
+    </div>
+    <div class="w-100">
+      <input />
+      <input /><input />
+      <input />
+    </div>
+    <div class="w-10">
+      <button>
+        <i class=" " (click)="delete(i)">delete_outline</i>
+      </button>
+    </div>
+  </div>
+</div>

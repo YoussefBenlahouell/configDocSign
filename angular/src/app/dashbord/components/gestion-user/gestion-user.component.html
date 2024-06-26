@@ -1,0 +1,477 @@
+<app-page-title
+  [heading]="heading"
+  [subheading]="subheading"
+  [icon]="icon"
+></app-page-title>
+
+<div class="main-card mb-3 card">
+  <div class="card-header">
+    <div class="row">
+      <div class="page-title-heading col-md-10">
+        <div class="search-wrapper" [class.active]="isActive">
+          <div class="input-holder">
+            <input
+              name="search"
+              [(ngModel)]="searchText"
+              type="text"
+              placeholder="Type to search"
+              class="search-input"
+            />
+            <button class="search-icon" (click)="isActive = true">
+              <span></span>
+            </button>
+          </div>
+          <button class="btn-close" (click)="isActive = false"></button>
+        </div>
+      </div>
+      <div class="page-title-actions col-md-2">
+        <div
+          *ngIf="lengthCHekedList > 0"
+          class="card-header-title font-size-lg text-capitalize fw-normal"
+        >
+          {{ lengthCHekedList }} Members Selected
+          <button class="border-0 mx-3 btn-transition btn btn-danger">
+            <i class="fa fa-fw" aria-hidden="true" title="trash"></i>
+          </button>
+        </div>
+        <button
+          (click)="onSubmitAdd(contentAdd)"
+          type="button"
+          class="btn-shadow d-inline-flex align-items-center btn btn-success"
+        >
+          <fa-icon [icon]="faPlus" class="me-2"></fa-icon>
+          Create New
+        </button>
+      </div>
+    </div>
+    <div class=""></div>
+  </div>
+  <div class="table-responsive">
+    <table
+      class="align-middle text-truncate mb-0 table table-borderless table-hover"
+    >
+      <thead>
+        <tr>
+          <th class="text-center">
+            <input
+              type="checkbox"
+              [(ngModel)]="masterSelected"
+              name="list_name"
+              value="m1"
+              (change)="checkUncheckAll()"
+            />
+          </th>
+          <th class="text-center">#</th>
+          <th class="text-center">Photo</th>
+          <th class="text-center">Full Name</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Status</th>
+          <th class="text-center">Function</th>
+          <th class="text-center">Role</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let user of users
+              | filter: searchText
+              | slice: (page - 1) * pageSize:(page - 1) * pageSize + pageSize;
+            let i = index
+          "
+        >
+          <td class="text-center" style="width: 20px">
+            <input
+              type="checkbox"
+              [(ngModel)]="user.isSelected"
+              name="list_name"
+              value="{{ user.idUser }}"
+              (change)="isAllSelected()"
+            />
+          </td>
+          <td class="text-center text-muted" style="width: 40px">
+            #{{ i + 1 }}
+          </td>
+          <td>
+            <span>
+              <div class="icon-wrapper icon-wrapper-alt rounded-circle">
+                <img
+                  width="42"
+                  src="{{ user.imageprofileUser }}"
+                  alt=""
+                  class="rounded-circle"
+                />
+              </div>
+            </span>
+          </td>
+          <td class="text-center">
+            {{ user.lnameUser }}&ensp;{{ user.fnameUser }}
+          </td>
+          <td class="text-center">
+            {{ user.emailUser }}
+          </td>
+
+          <td class="text-center">
+            <div *ngIf="user.isActive" class="badge rounded-pill bg-success">
+              Active
+            </div>
+            <div *ngIf="!user.isActive" class="badge rounded-pill bg-danger">
+              Disabled
+            </div>
+          </td>
+
+          <td class="text-center">
+            {{ user.fonctionUser }}
+          </td>
+          <td class="text-center">
+            {{ user.roleUser }}
+          </td>
+
+          <td class="text-center">
+            <button
+              class="border-0 btn-transition btn btn-outline-warning"
+              style="padding: 2px 2px"
+              (click)="onSubmitEdit(contentEdit, user)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="edit"></i>
+            </button>
+            <button
+              class="border-0 btn-transition btn btn-outline-success"
+              style="padding: 2px 2px"
+              (click)="onPlay(user.idUser)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="play"></i>
+            </button>
+            <button
+              class="border-0 btn-transition btn btn-outline-danger"
+              style="padding: 2px 2px"
+              (click)="onPause(user.idUser)"
+            >
+              <i class="fa fa-fw" aria-hidden="true" title="pause"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-block p-4 text-center card-footer">
+    <div class="btn">
+      <ngb-pagination
+        [pageSize]="pageSize"
+        [collectionSize]="lenghtlistuser"
+        [(page)]="page"
+        aria-label="Default pagination"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirmation</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="font-icon-wrapper">
+      <i class="pe-7s-attention py-3" style="color: rgb(177, 20, 20)"> </i>
+      <h3>Are you sure to delete this Member</h3>
+      <h6>This change will reflect in your portal</h6>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-outline-danger" (click)="onDelete()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #contentEdit let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit User</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+
+  <div class="main-card card">
+    <form #userchangeForm="ngForm" (ngSubmit)="onEdit(userchangeForm.value)">
+      <div class="m-3">
+        <div class="position-relative row mb-3">
+          <label for="fnameUser" class="form-label col-sm-4 col-form-label"
+            >First Name</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.fnameUser"
+              required
+              name="fnameUser"
+              id="fnameUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="lnameUser" class="form-label col-sm-4 col-form-label"
+            >Last Name</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.lnameUser"
+              required
+              name="lnameUser"
+              id="lnameUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="emailUser" class="form-label col-sm-4 col-form-label"
+            >Email</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.emailUser"
+              required
+              name="emailUser"
+              id="emailUser"
+              type="email"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="telUser" class="form-label col-sm-4 col-form-label"
+            >Tel</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.telUser"
+              name="telUser"
+              id="telUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="fonctionUser" class="form-label col-sm-4 col-form-label"
+            >Function</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.fonctionUser"
+              name="fonctionUser"
+              id="fonctionUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="position-relative row mb-3">
+          <label for="roleUser" class="form-label col-sm-4 col-form-label"
+            >Role</label
+          >
+          <div class="col-sm-8">
+            <input
+              [(ngModel)]="userforchange.roleUser"
+              name="roleUser"
+              id="roleUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="c('Close click')"
+        >
+          Cancel
+        </button>
+        <input type="submit" value="Edit" class="btn btn-outline-warning" />
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #contentAdd let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Add Member</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    ></button>
+  </div>
+
+  <div class="main-card card">
+    <form [formGroup]="userForm" (ngSubmit)="onAdd()">
+      <div class="m-3">
+        <div class="position-relative row mb-3">
+          <label for="fnameUser" class="form-label col-sm-4 col-form-label"
+            >First Name</label
+          >
+          <div class="col-sm-8">
+            <input
+              formControlName="fnameUser"
+              required
+              name="fnameUser"
+              id="fnameUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="lnameUser" class="form-label col-sm-4 col-form-label"
+            >Last Name</label
+          >
+          <div class="col-sm-8">
+            <input
+              formControlName="lnameUser"
+              required
+              name="lnameUser"
+              id="lnameUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="position-relative row mb-3">
+          <label for="fonctionUser" class="form-label col-sm-4 col-form-label"
+            >Gender</label
+          >
+          <div class="col-sm-8">
+            <label class="md-check">
+              <input
+                type="radio"
+                value="female"
+                name="gender"
+                formControlName="gender"
+              />
+              Female
+            </label>
+
+            <label class="md-check px-5">
+              <input
+                type="radio"
+                value="male"
+                name="gender"
+                formControlName="gender"
+              />
+              Male
+            </label>
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="emailUser" class="form-label col-sm-4 col-form-label"
+            >Email</label
+          >
+          <div class="col-sm-8">
+            <input
+              formControlName="emailUser"
+              required
+              name="emailUser"
+              id="emailUser"
+              type="email"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="position-relative row mb-3">
+          <label for="telUser" class="form-label col-sm-4 col-form-label"
+            >Tel</label
+          >
+          <div class="col-sm-8">
+            <input
+              formControlName="telUser"
+              required
+              name="telUser"
+              id="telUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="position-relative row mb-3">
+          <label for="fonctionUser" class="form-label col-sm-4 col-form-label"
+            >Function</label
+          >
+          <div class="col-sm-8">
+            <select
+              formControlName="fonctionUser"
+              name="fonctionUser"
+              class="form-select"
+              id="fonctionUser"
+            >
+              <option *ngFor="let c of function" [ngValue]="c">{{ c }}</option>
+            </select>
+
+            <!--  <select [(ngModel)]="selectedfunction">
+              <option *ngFor="let f of function" [Value]="f">{{ f }}</option>
+            </select>-->
+          </div>
+        </div>
+        <!-- <label for="fonctionUser" class="form-label col-sm-4 col-form-label"
+            >Function</label
+          >
+          <div class="col-sm-8">
+            <input
+              ngModel
+              required
+              name="fonctionUser"
+              id="fonctionUser"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>-->
+        <div class="position-relative row mb-3">
+          <label for="roleUser" class="form-label col-sm-4 col-form-label"
+            >Role</label
+          >
+          <div class="col-sm-8">
+            <select
+              formControlName="roleUser"
+              name="roleUser"
+              class="form-select"
+              id="roleUser"
+            >
+              <option [Value]="ADMIN">ADMIN</option>
+              <option [Value]="MEMBER">MEMBER</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="c('Close click')"
+        >
+          Cancel
+        </button>
+        <input type="submit" value="Add" class="btn btn-outline-success" />
+      </div>
+    </form>
+  </div>
+</ng-template>

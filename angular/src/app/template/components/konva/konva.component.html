@@ -1,0 +1,230 @@
+<div id="pdf-viewer"></div>
+<!--<app-readpdf [pdfInput]="PdfDocumentLoad"></app-readpdf>-->
+<div class="row">
+  <div class="col-sm-6 col-md-10">
+    <div class="btn-group">
+      <div *ngFor="let placerholder of placerholders; let i = index">
+        <div style="margin: 0.4em 0.5em">
+          <label
+            class="btn btn-outlinr"
+            [ngStyle]="{
+              color: 'black',
+              'border-color': placerholder.colorPlaceholder,
+              'background-color': placerholder.colorPlaceholder,
+              'padding-right': '40px',
+              'text-shadow': 'white 1px 0  5px',
+              'font-weight': 'bold'
+            }"
+            for="{{ placerholder.idPlaceholder }}"
+            >{{ placerholder.namePlaceholder }}
+
+            <button
+              style="position: absolute; top: 7px; right: 4px"
+              type="button"
+              (click)="deleteUser(placerholder, i)"
+              class="btn-close"
+              aria-label="Close"
+            ></button>
+          </label>
+          <input
+            ngDefaultControl
+            type="radio"
+            Class="btn-check"
+            name="placerholders"
+            id="{{ placerholder.idPlaceholder }}"
+            (change)="onSelectionChange(placerholder)"
+          />
+          <!--  <input
+            ngDefaultControl
+            type="radio"
+            Class="btn-check"
+            name="placerholders"
+            value="{{ placerholder.idPlaceholder }}"
+            [(ngModel)]="radioSelected"
+            id="{{ placerholder.idPlaceholder }}"
+            (change)="onSelectionChange(placerholder, $event)"
+          />-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h6 style="color: rgb(202, 66, 66)">{{ msgError }}</h6>
+</div>
+
+<!--<input
+  type="radio"
+  class="btn-check"
+  name="user"
+  id="user3"
+  autocomplete="off"
+  [value]="user3"
+  [(ngModel)]="defaultChoice"
+  (ngModelChange)="choose($event)"
+/>
+<label class="btn btn-outline-primary" for="user3">user3</label>
+<input
+  type="radio"
+  class="btn-check"
+  name="user"
+  id="user4"
+  autocomplete="off"
+  [value]="user4"
+  [(ngModel)]="defaultChoice"
+  (ngModelChange)="choose($event)"
+/>
+<label class="btn btn-outline-info" for="user4">user4</label>
+<input
+  type="radio"
+  class="btn-check"
+  name="user"
+  id="user5"
+  autocomplete="off"
+  [value]="user5"
+  [(ngModel)]="defaultChoice"
+  (ngModelChange)="choose($event)"
+/>
+<label class="btn btn-outline-warning" for="user5">user5</label>
+<input
+  type="radio"
+  class="btn-check"
+  name="user"
+  id="user6"
+  autocomplete="off"
+  [value]="user6"
+  [(ngModel)]="defaultChoice"
+  (ngModelChange)="choose($event)"
+/>
+<label class="btn btn-outline-dark" for="user6">user6</label>
+-->
+<div
+  id="scroll-container"
+  [ngStyle]="{ 'width.px': document.width * scale + 30 }"
+>
+  <div id="large-container">
+    <div id="container"></div>
+  </div>
+</div>
+
+<!--<div id="container" [ngStyle]="{ 'width.px': pdfWidth * scale }"></div>-->
+<div id="menu">
+  <div>
+    <button id="delete-button">Delete</button>
+  </div>
+</div>
+
+<div class="elementsbar">
+  <div>
+    <ul
+      id="listelement"
+      [ngStyle]="{
+        'background-color': selectedPlacerholder.colorPlaceholder
+      }"
+    >
+      <li id="yassine">
+        <a href="" class="FirstName"
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="First Name">First Name</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href=""
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="Last Name">Last Name</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href=""
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="Signature">Signature</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href=""
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="E-mail">E-mail</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href=""
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="Phone Number">Phone Number</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#"
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="Company Name">Company Name</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#"
+          ><div class="icon"></div>
+          <div class="name">
+            <span class="tt" data-text="Address">Address</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#"
+          ><div class="icon">
+            <i class="pe-7s-users" aria-hidden="true"> </i>
+
+            <i class="pe-7s-users" aria-hidden="true"> </i>
+          </div>
+          <div class="name">
+            <span class="tt" data-text="Postal Code">Postal Code</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="#"
+          ><div class="icon">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </div>
+          <div class="name">
+            <span class="tt" data-text="Date">Date</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="row mt-5 mx-2 pt-5 pb-3">
+  <div class="position-relative">
+    <div class="position-absolute bottom-0 start-0">
+      <button
+        style="width: 110px"
+        class="btn btn-outline-info"
+        (click)="prior()"
+      >
+        <i class="fa fa-fw" aria-hidden="true" title="arrow-left"></i>
+        Prior Step
+      </button>
+    </div>
+    <div class="position-absolute bottom-0 end-0">
+      <button
+        style="width: 110px"
+        class="btn btn-outline-info ml-3"
+        (click)="next()"
+      >
+        Next Step
+        <i class="fa fa-fw" aria-hidden="true" title="arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
