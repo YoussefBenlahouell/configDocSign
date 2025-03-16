@@ -567,6 +567,33 @@
       ],
       "notBefore": 0,
       "groups": []
+    },
+    {
+      "id": "b1234567-89ab-cdef-0123-456789abcdef",
+      "createdTimestamp": 1646747324000,
+      "username": "youssef.benlahouell@gmail.com",
+      "email": "youssef.benlahouell@gmail.com",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Youssef",
+      "lastName": "Benlahouell",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "youssef123",
+          "temporary": false
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-ms-realm",
+        "ADMIN",
+        "MEMBER"
+      ],
+      "notBefore": 0,
+      "groups": []
     }
   ],
   "scopeMappings": [
