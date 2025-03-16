@@ -21,7 +21,7 @@ export class RequestInterceptorService implements HttpInterceptor {
     if (!this.securityservice.kc.authenticated) return next.handle(req);
     console.log(req);
 
-    if (req.url.search("http://127.0.0.1:8180/auth/admin") != -1)
+    if (req.url.search("http://localhost:8180/auth/admin") != -1)
       return next.handle(req);
     else if (req.url.search("cloudinary") != -1) return next.handle(req);
     // else if (req.url.search("change") != -1) return next.handle(req);

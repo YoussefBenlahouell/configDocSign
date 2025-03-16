@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { KeycloakInstance } from "keycloak-js";
 import { TokenStorageService } from "../user/services/token-storage.service";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router"; // Ajout de Router
 
 declare var Keycloak: any;
 
@@ -15,61 +16,45 @@ export class KeyclockSecurityService {
 
   constructor(
       private http: HttpClient,
-      private tokenStorage: TokenStorageService
+      private tokenStorage: TokenStorageService,
+      private router: Router // Injection de Router
   ) {}
 
   public async init() {
     console.log("Initializing Keycloak...");
     this.kc = new Keycloak({
-      url: "http://localhost:8180/auth/", // URL accessible depuis le navigateur
+      url: "http://localhost:8180/auth/",
       realm: "ms-realm",
       clientId: "angular-client",
     });
 
     try {
-      // Initialisation avec redirection forcée vers Keycloak si non connecté
       await this.kc.init({
-        onLoad: "login-required", // Redirige vers Keycloak automatiquement
+        onLoad: "login-required",
         checkLoginIframe: false,
-        redirectUri: "http://localhost:80/",// Désactive l’iframe pour éviter les erreurs de timeout
+        redirectUri: "http://localhost:80/dashbord", // Redirection vers /dashbord
       });
       console.log("Keycloak initialized successfully, token:", this.kc.token);
 
-      // Stockage du token utilisateur après connexion
       if (this.kc.token) {
         this.tokenStorage.saveToken(this.kc.token);
         this.tokenStorage.saveRefreshToken(this.kc.refreshToken || "");
         console.log("User token stored:", this.kc.token);
+        await this.router.navigate(["/dashbord"]); // Navigation explicite
       }
 
-      // Récupération optionnelle du token admin (si nécessaire)
-      let tokenadmin = null;
-      this.tokenadmin().subscribe(
-          (res) => {
-            tokenadmin = res.access_token;
-            console.log("Admin token retrieved:", tokenadmin);
-          },
-          (error) => {
-            console.error("Error fetching admin token:", error);
-          },
-          () => {
-            if (tokenadmin) {
-              this.tokenStorage.saveToken(tokenadmin);
-              this.tokenStorage.saveRefreshToken(tokenadmin);
-              console.log("Admin token stored");
-            }
-          }
-      );
+      // Suppression de tokenadmin() pour éviter d'écraser le token utilisateur
     } catch (error) {
       console.error("Keycloak initialization failed:", error);
     }
   }
 
+  // Méthode tokenadmin() conservée mais non utilisée dans init()
   public tokenadmin(): Observable<any> {
     let params = new HttpParams({
       fromObject: {
-        username: "youssefbenlahouell@gmail.com",
-        password: "youssef123",
+        username: "admin",
+        password: "admin",
         grant_type: "password",
         client_id: "admin-cli",
       },
@@ -80,7 +65,7 @@ export class KeyclockSecurityService {
       }),
     };
     return this.http.post(
-        "http://localhost:8180/auth/realms/master/protocol/openid-connect/token", // URL corrigée
+        "http://localhost:8180/auth/realms/master/protocol/openid-connect/token",
         params.toString(),
         httpOptions
     );

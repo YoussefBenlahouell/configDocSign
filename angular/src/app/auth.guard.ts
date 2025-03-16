@@ -13,60 +13,55 @@ import { KeyclockSecurityService } from "./services/keyclock-security.service";
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  protected router: Router;
-  protected authenticated: boolean;
-  protected roles: string[];
   constructor(
-    router: Router,
-    public keycloakAngular: KeyclockSecurityService
+      private router: Router, // Corrigé avec private
+      private keycloakService: KeyclockSecurityService // Renommé pour clarté
   ) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Promise<boolean | UrlTree> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.authenticated = await this.keycloakAngular.isLoggedIn();
-        this.roles = await this.keycloakAngular.getUserRoles(true);
 
-        const result = await this.isAccessAllowed(route, state);
+  canActivate(
+      route: ActivatedRouteSnapshot,
+      state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    return new Promise(async (resolve) => {
+      try {
+        const authenticated = await this.keycloakService.isLoggedIn();
+        const roles = await this.keycloakService.getUserRoles(true);
+        console.log("Authenticated:", authenticated, "Roles:", roles);
+
+        const result = await this.isAccessAllowed(route, state, authenticated, roles);
         resolve(result);
       } catch (error) {
-        reject("An error happened during access validation. Details:" + error);
+        console.error("Error during access validation:", error);
+        resolve(false);
       }
     });
   }
 
   async isAccessAllowed(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+      route: ActivatedRouteSnapshot,
+      state: RouterStateSnapshot,
+      authenticated: boolean,
+      roles: string[]
   ): Promise<boolean | UrlTree> {
-    // Force the user to log in if currently unauthenticated.
-    if (!this.authenticated) {
-      await this.keycloakAngular.kc.login({
-        redirectUri: window.location.origin + state.url,
-      });
+    console.log("Checking access for route:", route.url, "State:", state.url);
+    if (!authenticated) {
+      console.log("User not authenticated, relying on Keycloak redirect");
+      return false; // Keycloak gère la redirection via "login-required"
     }
 
-    // Get the roles required from the route.
-    const requiredRoles = route.data.roles;
-
-    let granted = false;
-
-    // Allow the user to to proceed if no additional roles are required to access the route.
-    if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
-      granted = true;
-      return granted;
+    const requiredRoles = route.data?.roles;
+    console.log("Required roles:", requiredRoles, "User roles:", roles);
+    if (!Array.isArray(requiredRoles) || requiredRoles.length === 0) {
+      console.log("No roles required, access granted");
+      return true;
     }
 
-    // Allow the user to proceed if all the required roles are present.
-    granted = requiredRoles.every((role) => this.roles.includes(role));
-
-    // Routing user into permission denied view if don't have necessary roles.
+    const granted = requiredRoles.every((role) => roles.includes(role));
     if (!granted) {
-      await this.router.navigate(["permission-denied"]);
+      console.log("Access denied, redirecting to /welcome");
+      return this.router.parseUrl("/welcome"); // Redirection vers /welcome
     }
-
-    return granted;
+    console.log("Access granted");
+    return true;
   }
 }
