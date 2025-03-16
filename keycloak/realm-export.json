@@ -642,7 +642,9 @@
       "redirectUris": [
         "/realms/ms-realm/account/*"
       ],
-      "webOrigins": [],
+      "webOrigins": [
+        "*"
+      ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -722,17 +724,18 @@
     {
       "id": "a00a2d96-9615-4ed7-8878-2a51ceb5dcf2",
       "clientId": "angular-client",
-      "rootUrl": "http://localhost:4200",
+      "rootUrl": "http://localhost:80",
       "adminUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:4200/*"
+        "http://localhost:80/*",
+        "http://localhost/*"
       ],
       "webOrigins": [
-        "+"
+        "http://localhost:80"
       ],
       "notBefore": 0,
       "bearerOnly": false,
