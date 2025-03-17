@@ -33,7 +33,7 @@ public class SendMailService {
         Map<String, Object> model = new HashMap<>();
         model.put("RecipientName",RecipientName);
         model.put("RecipientEmail",RecipientEmail);
-        model.put("url","http://localhost:4200/dashbord/");
+        model.put("url","http://localhost:80/dashbord/");
         //  model.put("emailMessage",emailMessage);
 
         Context context = new Context();

@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular app
-FROM node:12-alpine as build
+FROM node:12-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install -g @angular/cli@11.2.2 && npm install

@@ -43,7 +43,7 @@ export class UserBoxComponent implements OnInit {
   }
   onlogout() {
     this.securityservice.kc.logout({
-      redirectUri: "http://localhost:4200/welcome",
+      redirectUri: "http://localhost:80/welcome",
     });
   }
   test() {

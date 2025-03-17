@@ -187,36 +187,6 @@ export class UserService {
     }
   );
   }
-  /*
-  public addRoletoUser(
-    idUser: string,
-    token: string,
-    id: boolean
-  ): Observable<any> {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    };
-    const body = JSON.stringify([
-      {
-        id: "feff9764-65b9-401d-b8bc-fe17aed2d2c6",
-        name: "ADMIN",
-      },
-      {
-        id: "d57345f9-e90e-4d20-8a80-00e06bb972a7",
-        name: "MEMBER",
-      },
-    ]);
-    console.log(body);
-
-    return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/role-mappings/realm`,
-      body,
-      {
-        headers: headers,
-      }
-    );
-  }*/
   getorgbyiduser(idadmin: string): Observable<any> {
     return this.http.get(
       `http://localhost:9999/user-service/user/org/${idadmin}`

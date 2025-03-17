@@ -82,7 +82,7 @@ services:
        - signatury-network  
      environment:
        eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka
-       KEYCLOAK_URL: http://keycloak:8080
+       KEYCLOAK_URL: http://keycloak:8080/auth
      ports:
        - "9999:9999"
      depends_on:
@@ -105,7 +105,7 @@ services:
       spring.datasource.username: root
       spring.datasource.password: '0000'
       EUREKA_URL: http://eureka:8761/eureka
-      KEYCLOAK_URL: http://keycloak:8180/auth
+      KEYCLOAK_URL: http://keycloak:8080/auth # Corrigé
 
 
     ports:
@@ -133,7 +133,7 @@ services:
       spring.datasource.username: root
       spring.datasource.password: '0000'
       EUREKA_URL: http://eureka:8761/eureka
-      KEYCLOAK_URL: http://keycloak:8180/auth
+      KEYCLOAK_URL: http://keycloak:8080/auth
 
     ports:
       - "9200:9200"
@@ -152,7 +152,7 @@ services:
       image: document:0.0.1
       container_name: documentMS
       networks:
-        - signatury-network  
+        - signatury-network
       environment:
         spring.cloud.config.uri: http://config:8888
         MYSQL_HOST: mysql:3306
@@ -161,7 +161,7 @@ services:
         spring.datasource.username: root
         spring.datasource.password: '0000'
         EUREKA_URL: http://eureka:8761/eureka
-        KEYCLOAK_URL: http://keycloak:8180/auth
+        KEYCLOAK_URL: http://keycloak:8080/auth
         
       ports:
         - "9100:9100"

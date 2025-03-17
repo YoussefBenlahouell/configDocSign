@@ -239,12 +239,12 @@ export class SignuptestComponent implements OnInit {
       },
       (error) => {
         this.securityservice.kc.login({
-          redirectUri: "http://localhost:4200/dashbord",
+          redirectUri: "http://localhost:80/dashbord",
         });
       },
       () => {
         this.securityservice.kc.login({
-          redirectUri: "http://localhost:4200/dashbord",
+          redirectUri: "http://localhost:80/dashbord",
         });
       }
     );

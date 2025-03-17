@@ -172,7 +172,7 @@
             <hr class="mdc-list-divider divider-mdc">
 
             <div id="kc-registration" class="registration-label-mdc">
-                <span>${msg("noAccount")} <a tabindex="0" href="http://localhost:4200/user/signuptest">${msg("doRegister")}</a></span>
+                <span>${msg("noAccount")} <a tabindex="0" href="http://localhost:80/user/signuptest">${msg("doRegister")}</a></span>
             </div>
         </#if>
     </#if>

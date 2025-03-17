@@ -97,7 +97,7 @@
                 <div id="kc-registration">
                    <!--   <span>${msg("noAccount")} <a tabindex="6"
                                              href="${url.registrationUrl}">${msg("doRegister")}</a></span>-->
-                         <span>${msg("noAccount")} <a tabindex="6" href="http://localhost:4200/signup">${msg("doRegister")}</a></span>
+                         <span>${msg("noAccount")} <a tabindex="6" href="http://localhost:80/signup">${msg("doRegister")}</a></span>
                 </div>
             </div>
         </#if>

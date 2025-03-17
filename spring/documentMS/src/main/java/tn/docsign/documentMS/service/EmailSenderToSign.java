@@ -34,7 +34,7 @@ public class EmailSenderToSign {
         model.put("recipientName",RecipientName);
         model.put("senderName",senderName);
         model.put("emailMessage",emailMessage);
-        model.put("url","http://localhost:4200/signature/viewpdf/"+idSavedFile);
+        model.put("url","http://localhost:80/signature/viewpdf/"+idSavedFile);
 
 
         Context context = new Context();
