@@ -44,7 +44,7 @@ export class KonvaComponent implements OnInit {
   thePdf = null;
 
   pdfSrc: string =
-    "http://localhost:9999/document-service/files/a9f520d7-c7bd-4c03-939e-0106f555e2c3";
+    "/files/a9f520d7-c7bd-4c03-939e-0106f555e2c3";
   document: Document;
 
   pdfGroup;

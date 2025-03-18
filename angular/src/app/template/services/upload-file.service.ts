@@ -7,15 +7,19 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { KeyclockSecurityService } from "src/app/services/keyclock-security.service";
+
 @Injectable({
   providedIn: "root",
 })
 export class UploadFileService {
-  private baseUrl = "http://localhost:9999/template-service";
+  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  private baseUrl = `${this.apiBaseUrl}/templates`; // Chemin relatif
+
   constructor(
-    private http: HttpClient,
-    private tokenservice: KeyclockSecurityService
+      private http: HttpClient,
+      private tokenservice: KeyclockSecurityService
   ) {}
+
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
     formData.append("file", file);
@@ -25,35 +29,26 @@ export class UploadFileService {
     });
     return this.http.request(req);
   }
+
   getFiles(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + this.tokenservice.kc.token,
       }),
     };
-    return this.http.get(`${this.baseUrl}/files`);
+    return this.http.get(`${this.baseUrl}/files`, httpOptions);
   }
 
-  delete(id: String): Observable<HttpEvent<any>> {
+  delete(id: string): Observable<HttpEvent<any>> {
     const req = new HttpRequest("DELETE", `${this.baseUrl}/delete/${id}`);
     return this.http.request(req);
   }
-  getFile(id: String): Observable<any> {
-    /*  const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "Bearer " + this.tokenservice.kc.token,
-      }),
-    };*/
+
+  getFile(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/files/${id}`);
   }
-  getFile2(id: String): Observable<any> {
-    /*  const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: "Bearer " + this.tokenservice.kc.token,
-      }),
-    };*/
-    return this.http.get(
-      `${this.baseUrl}/fil/15f55922-49cb-4fc6-98d0-a7feed2ddc64`
-    );
+
+  getFile2(id: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/fil/15f55922-49cb-4fc6-98d0-a7feed2ddc64`);
   }
 }

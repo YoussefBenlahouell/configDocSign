@@ -2,18 +2,16 @@ import { LoginInfo } from "../models/loginInfo";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { of } from "rxjs";
 import { User } from "../models/user";
-import { filter, map } from "rxjs/operators";
-import { catchError, retry } from "rxjs/operators";
+
 @Injectable({
   providedIn: "root",
 })
 export class SiginupService {
-  private userPostUrl: string;
-  constructor(private http: HttpClient) {
-    this.userPostUrl = "http://127.0.0.1:8180/auth";
-  }
+  private userPostUrl = "http://127.0.0.1:8180/auth"; // URL Keycloak
+  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+
+  constructor(private http: HttpClient) {}
 
   public tokenUsersign(user: LoginInfo): Observable<any> {
     const params = new HttpParams({
@@ -31,9 +29,9 @@ export class SiginupService {
     };
     console.log(params);
     return this.http.post(
-      `${this.userPostUrl}/realms/ms-realm/protocol/openid-connect/token`,
-      params.toString(),
-      httpOptions
+        `${this.userPostUrl}/realms/ms-realm/protocol/openid-connect/token`, // Keycloak, inchangé
+        params.toString(),
+        httpOptions
     );
   }
 
@@ -46,7 +44,6 @@ export class SiginupService {
         grant_type: "password",
       },
     });
-
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/x-www-form-urlencoded",
@@ -54,9 +51,9 @@ export class SiginupService {
     };
     console.log(params);
     return this.http.post(
-      `${this.userPostUrl}/realms/ms-realm/protocol/openid-connect/token`,
-      params.toString(),
-      httpOptions
+        `${this.userPostUrl}/realms/ms-realm/protocol/openid-connect/token`, // Keycloak, inchangé
+        params.toString(),
+        httpOptions
     );
   }
 
@@ -76,16 +73,16 @@ export class SiginupService {
     };
     console.log(params);
     return this.http.post(
-      `${this.userPostUrl}/realms/master/protocol/openid-connect/token`,
-      params.toString(),
-      httpOptions
+        `${this.userPostUrl}/realms/master/protocol/openid-connect/token`, // Keycloak, inchangé
+        params.toString(),
+        httpOptions
     );
   }
 
   public changepassword(
-    idUser: string,
-    token: any,
-    newpassword: string
+      idUser: string,
+      token: any,
+      newpassword: string
   ): Observable<any> {
     const body = JSON.stringify({
       type: "password",
@@ -99,11 +96,12 @@ export class SiginupService {
       }),
     };
     return this.http.put(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/reset-password`,
-      body,
-      httpOptions
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/reset-password`, // Keycloak, inchangé
+        body,
+        httpOptions
     );
   }
+
   public findbyemail(token: any, email: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -112,13 +110,13 @@ export class SiginupService {
       }),
     };
     return this.http.get(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/?email=${email}`,
-      httpOptions
+        `${this.userPostUrl}/admin/realms/ms-realm/users/?email=${email}`, // Keycloak, inchangé
+        httpOptions
     );
   }
+
   public sendVerifyEmail(token: any, iduser: string): Observable<any> {
     const body = { title: "Angular PUT Request Example" };
-
     const httpOptions = {
       headers: new HttpHeaders({
         "Access-Control-Allow-Headers": "Content-Type",
@@ -128,9 +126,9 @@ export class SiginupService {
       }),
     };
     return this.http.put<any>(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}/send-verify-email`,
-      body,
-      httpOptions
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}/send-verify-email`, // Keycloak, inchangé
+        body,
+        httpOptions
     );
   }
 
@@ -147,13 +145,10 @@ export class SiginupService {
       username: newUser.passwordUser,
     });
     console.log(body);
-
     return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
 
@@ -173,19 +168,17 @@ export class SiginupService {
       },
     ]);
     console.log(body);
-
     return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/role-mappings/realm`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/role-mappings/realm`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
+
   public addUserWithPasswordInKeyclock(
-    newUser: User,
-    token: string,
-    org: string
+      newUser: User,
+      token: string,
+      org: string
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
@@ -205,19 +198,16 @@ export class SiginupService {
       realmRoles: ["ADMIN", "MEMBER"],
     });
     console.log(body);
-
     return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
 
   public addUserWithPasswordInKeyclockForsign(
-    email: string,
-    token: string
+      email: string,
+      token: string
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
@@ -234,13 +224,10 @@ export class SiginupService {
       realmRoles: ["MEMBER"],
     });
     console.log(body);
-
     return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
 
@@ -248,13 +235,11 @@ export class SiginupService {
     const params = new HttpParams({
       fromObject: {
         client_id: "angular-client",
-        //  client_secret: "e6f5e8GIHaFwBiM7cSWEsnan1cSHlVs0",
         username: email,
         password: "testtest",
         grant_type: "password",
       },
     });
-
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/x-www-form-urlencoded",
@@ -262,15 +247,15 @@ export class SiginupService {
     };
     console.log(params);
     return this.http.post(
-      "http://keycloak:8080/auth/realms/ms-realm/protocol/openid-connect/token",
-      params.toString(),
-      httpOptions
+        `${this.userPostUrl}/realms/ms-realm/protocol/openid-connect/token`, // Keycloak corrigé
+        params.toString(),
+        httpOptions
     );
   }
 
   public addUserWithPasswordInDB(
-    newUser: User,
-    token: string
+      newUser: User,
+      token: string
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
@@ -279,20 +264,19 @@ export class SiginupService {
     const body = JSON.stringify(newUser);
     console.log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
     console.log(body);
-
-    return this.http.post("http://localhost:9999/user/", body);
+    return this.http.post(`${this.apiBaseUrl}/user/`, body); // Modifié
   }
 
   addnewUser(newUser: User) {
     console.log(JSON.parse(JSON.stringify(newUser)));
     return this.http.post(
-      "http://localhost:9999/user/",
-      JSON.parse(JSON.stringify(newUser))
+        `${this.apiBaseUrl}/user/`, // Modifié
+        JSON.parse(JSON.stringify(newUser))
     );
   }
 
   getUsersFromBack(): Observable<User[]> {
-    return this.http.get<User[]>("http://localhost:9999/user-service/user/");
+    return this.http.get<User[]>(`${this.apiBaseUrl}/user/`); // Modifié
   }
 
   public postnewinitalacces(token: string): Observable<any> {
@@ -305,13 +289,10 @@ export class SiginupService {
       expiration: 5,
     });
     console.log(body);
-
     return this.http.post(
-      "http://127.0.0.1:8180/auth/admin/realms/ms-realm/clients-initial-access",
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/clients-initial-access`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
 
@@ -326,13 +307,10 @@ export class SiginupService {
       subGroups: [],
     });
     console.log(body);
-
     return this.http.post(
-      "http://127.0.0.1:8180/auth/admin/realms/ms-realm/groups",
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/groups`, // Keycloak, inchangé
+        body,
+        { headers }
     );
   }
 
@@ -342,10 +320,8 @@ export class SiginupService {
       Authorization: "Bearer " + token,
     };
     return this.http.get(
-      "http://127.0.0.1:8180/auth/admin/realms/ms-realm/groups",
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/groups`, // Keycloak, inchangé
+        { headers }
     );
   }
 }

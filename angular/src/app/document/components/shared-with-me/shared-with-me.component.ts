@@ -28,7 +28,7 @@ export class SharedWithMeComponent implements OnInit {
   subheading = " ";
   icon = "pe-7s-diamond icon-gradient bg-strong-bliss";
   listfolder: any[] = [];
-  cuurentidUser: String = "";
+  cuurentidUser: string = "";
   notforshowuser: User[] = [];
   users: User[];
   selectedUser: User[];
@@ -40,7 +40,7 @@ export class SharedWithMeComponent implements OnInit {
   documents: DocumentSign[] = [];
   masterSelected: boolean;
   checkedList: DocumentSign[] = [];
-  idDocumentForDelete: String = "";
+  idDocumentForDelete: string = "";
   lenghtlisttmeplate = 0;
   selectedfile: any;
 

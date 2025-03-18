@@ -7,7 +7,8 @@ import { Mail } from "../models/mail";
   providedIn: "root",
 })
 export class MailService {
-  url = "http://localhost:9999/document-service/mails/";
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/filees/mails/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +17,15 @@ export class MailService {
   }
 
   getMailById(id: string): Observable<Mail> {
-    return this.http.get<Mail>(this.url + id + "/");
+    return this.http.get<Mail>(`${this.url}${id}/`);
   }
+
   editMail(mail: Mail): Observable<any> {
     return this.http.put(this.url, mail);
   }
 
-  deleteMail(id: String): Observable<any> {
+  deleteMail(id: string): Observable<any> {
     const url = `${this.url}${id}/`;
-
     return this.http.delete(url);
   }
 

@@ -42,7 +42,7 @@ export class AllDocumentComponent implements OnInit {
   documents: DocumentSign[] = [];
   masterSelected: boolean;
   checkedList: DocumentSign[] = [];
-  idDocumentForDelete: String = "";
+  idDocumentForDelete: string = "";
   lenghtlisttmeplate = 0;
 
   constructor(

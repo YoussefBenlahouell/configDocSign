@@ -9,45 +9,47 @@ import { User } from "../models/user";
   providedIn: "root",
 })
 export class UserService {
-  userPostUrl = "http://127.0.0.1:8180/auth";
+  userPostUrl = "http://127.0.0.1:8180/auth"; // URL Keycloak reste inchangée
+  apiBaseUrl = ""; // Base URL vide pour utiliser NGINX (http://localhost:80)
+
   constructor(private http: HttpClient) {}
 
   addnewUser(newUser: User) {
     console.log(JSON.parse(JSON.stringify(newUser)));
     return this.http.post(
-      "http://localhost:9999/user-service/user/savewithmail/",
-      JSON.parse(JSON.stringify(newUser))
+        `${this.apiBaseUrl}/user/savewithmail/`, // Modifié
+        JSON.parse(JSON.stringify(newUser))
     );
   }
+
   getUserFromBackById(iduser): Observable<User[]> {
-    return this.http.get<User[]>(
-      `http://localhost:9999/user-service/user/${iduser}`
-    );
+    return this.http.get<User[]>(`${this.apiBaseUrl}/user/${iduser}`); // Modifié
   }
+
   editUser(newUser: User) {
     console.log(JSON.parse(JSON.stringify(newUser)));
     return this.http.put(
-      "http://localhost:9999/user-service/user/update",
-      JSON.parse(JSON.stringify(newUser))
+        `${this.apiBaseUrl}/user/update`, // Modifié
+        JSON.parse(JSON.stringify(newUser))
     );
   }
+
   editOrg(org: organization) {
     console.log(JSON.parse(JSON.stringify(org)));
     return this.http.put(
-      "http://localhost:9999/user-service/api/organization/",
-      JSON.parse(JSON.stringify(org))
+        `${this.apiBaseUrl}/user/api/organization/`, // Modifié
+        JSON.parse(JSON.stringify(org))
     );
   }
 
   getUsersFromBack(idOrg: string): Observable<User[]> {
-    return this.http.get<User[]>(
-      `http://localhost:9999/user-service/user/userofOrg/${idOrg}`
-    );
+    return this.http.get<User[]>(`${this.apiBaseUrl}/user/userofOrg/${idOrg}`); // Modifié
   }
+
   public addUserWithPasswordInKeyclockwithmailForchangeMotdepasse(
-    newUser: User,
-    token: string,
-    org: string
+      newUser: User,
+      token: string,
+      org: string
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
@@ -73,44 +75,37 @@ export class UserService {
     console.log(body);
 
     return this.http.post(
-      `${this.userPostUrl}/admin/realms/ms-realm/users`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users`, // Keycloak, inchangé
+        body,
+        {
+          headers: headers,
+        }
     );
   }
 
   play(idUser: string): Observable<any> {
-    return this.http.put(
-      "http://localhost:9999/user-service/user/play",
-      idUser
-    );
+    return this.http.put(`${this.apiBaseUrl}/user/play`, idUser); // Modifié
   }
 
   updateimage(url: string, idUser: string): Observable<any> {
     const form: imageforupdate = new imageforupdate(idUser, url);
-    return this.http.put(
-      "http://localhost:9999/user-service/user/updateimage",
-      form
-    );
+    return this.http.put(`${this.apiBaseUrl}/user/updateimage`, form); // Modifié
   }
+
   updateimageOrg(url: string, idOrg: string): Observable<any> {
     const form: imageforupdateOrg = new imageforupdateOrg(idOrg, url);
     return this.http.put(
-      "http://localhost:9999/user-service/api/organization/updateimage",
-      form
+        `${this.apiBaseUrl}/user/api/organization/updateimage`, // Modifié
+        form
     );
   }
 
   pause(idUser: string): Observable<any> {
-    return this.http.put(
-      "http://localhost:9999/user-service/user/pause",
-      idUser
-    );
+    return this.http.put(`${this.apiBaseUrl}/user/pause`, idUser); // Modifié
   }
+
   getadmin(idadmin: string): Observable<any> {
-    return this.http.get(`http://localhost:9999/user-service/user/${idadmin}`);
+    return this.http.get(`${this.apiBaseUrl}/user/${idadmin}`); // Modifié
   }
 
   public getuserfromkeyclock(token: any, iduser: string): Observable<any> {
@@ -122,15 +117,16 @@ export class UserService {
       }),
     };
     return this.http.get<any>(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}`,
-      httpOptions
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}`, // Keycloak, inchangé
+        httpOptions
     );
   }
+
   public changestatusUserinKeyclock(
-    token: any,
-    iduser: string,
-    user: any,
-    status: boolean
+      token: any,
+      iduser: string,
+      user: any,
+      status: boolean
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
@@ -142,54 +138,50 @@ export class UserService {
     console.log(body);
 
     return this.http.put<any>(
-      `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}`,
-      body,
-      {
-        headers: headers,
-      }
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${iduser}`, // Keycloak, inchangé
+        body,
+        {
+          headers: headers,
+        }
     );
   }
 
   public addRoletoUser(
-    idUser: string,
-    token: string,
-    isadmin: boolean
+      idUser: string,
+      token: string,
+      isadmin: boolean
   ): Observable<any> {
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     };
-    let id: string = "";
-    let name: string = "";
-    if (isadmin) {
-      (id = "feff9764-65b9-401d-b8bc-fe17aed2d2c6"), (name = "ADMIN");
-    } else {
-      (id = "d57345f9-e90e-4d20-8a80-00e06bb972a7"), (name = "MEMBER");
-    }
-
-        const body = JSON.stringify([
-          {
-            id: "feff9764-65b9-401d-b8bc-fe17aed2d2c6",
-            name: "ADMIN",
-          },
-          {
-            id: "d57345f9-e90e-4d20-8a80-00e06bb972a7",
-            name: "MEMBER",
-          },
-        ]);
+    const body = JSON.stringify(
+        isadmin
+            ? [
+              {
+                id: "feff9764-65b9-401d-b8bc-fe17aed2d2c6",
+                name: "ADMIN",
+              },
+            ]
+            : [
+              {
+                id: "d57345f9-e90e-4d20-8a80-00e06bb972a7",
+                name: "MEMBER",
+              },
+            ]
+    );
     console.log(idUser);
 
-  return this.http.post(
-    `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/role-mappings/realm`,
-    body,
-    {
-      headers: headers,
-    }
-  );
-  }
-  getorgbyiduser(idadmin: string): Observable<any> {
-    return this.http.get(
-      `http://localhost:9999/user-service/user/org/${idadmin}`
+    return this.http.post(
+        `${this.userPostUrl}/admin/realms/ms-realm/users/${idUser}/role-mappings/realm`, // Keycloak, inchangé
+        body,
+        {
+          headers: headers,
+        }
     );
+  }
+
+  getorgbyiduser(idadmin: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/user/org/${idadmin}`); // Modifié
   }
 }

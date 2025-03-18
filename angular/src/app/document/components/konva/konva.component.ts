@@ -13,7 +13,6 @@ import { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
 import { forEachChild, transform } from "typescript";
 import { Placeholder } from "../../models/placeholder";
 import { placeholderlist } from "../../models/placeholders";
-
 import { UploadFileService } from "../../services/upload-file.service";
 import { ChangeInfoService } from "../../services/change-info.service";
 import { Observable, timer } from "rxjs";
@@ -44,8 +43,7 @@ interface IPdfDocumentLoad {
 export class KonvaComponent implements OnInit {
   thePdf = null;
 
-  pdfSrc: string =
-    "http://localhost:9999/document-service/files/a9f520d7-c7bd-4c03-939e-0106f555e2c3";
+  pdfSrc: string = "/filees/a9f520d7-c7bd-4c03-939e-0106f555e2c3"; // Chemin relatif
   document: Document;
 
   pdfGroup;
@@ -78,6 +76,7 @@ export class KonvaComponent implements OnInit {
   @Output() addi = new EventEmitter<number>();
   radioSelected: any;
   enum_details = [{ name: "pardeep" }, { name: "Jain" }, { name: "Angular" }];
+
   prior() {
     var json = JSON.parse(this.allElementGroup.toJSON()).children;
     console.log(json);
@@ -85,16 +84,15 @@ export class KonvaComponent implements OnInit {
     this.placerholders.forEach((x) => (x.elements.length = 0));
     json.forEach((y) => {
       let index = this.placerholders.findIndex(
-        (x) => x.idPlaceholder == y.attrs.name
+          (x) => x.idPlaceholder == y.attrs.name
       );
       console.log(index);
-
-      //   this.placerholders[index].elements.push(JSON.stringify(y));
       this.placerholders[index].elements.push(y);
     });
     this.changeInfoService.placeholders = this.placerholders;
     this.deletei.emit(1);
   }
+
   next() {
     var json = JSON.parse(this.allElementGroup.toJSON()).children;
     console.log(json);
@@ -102,21 +100,19 @@ export class KonvaComponent implements OnInit {
     this.placerholders.forEach((x) => (x.elements.length = 0));
     json.forEach((y) => {
       let index = this.placerholders.findIndex(
-        (x) => x.idPlaceholder == y.attrs.name
+          (x) => x.idPlaceholder == y.attrs.name
       );
       console.log(index);
-
-      //   this.placerholders[index].elements.push(JSON.stringify(y));
       this.placerholders[index].elements.push(y);
     });
     this.changeInfoService.placeholders = this.placerholders;
     this.addi.emit(1);
   }
+
   onSelectionChange(place: Placeholder) {
     this.selectedPlacerholder = place;
     console.log("xxxxxx" + this.radioSelected);
     console.log(place);
-    // this.layer.listening(false);  this.layer.listening(true);
   }
 
   constructor(private changeInfoService: ChangeInfoService) {
@@ -126,7 +122,7 @@ export class KonvaComponent implements OnInit {
     const pdfWorkerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS.version}/pdf.worker.min.js`;
     PDFJS.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
   }
-  ///loadpdf
+
   renderPage(pageNumber, canvas, pdfnbrpage) {
     this.thePdf.getPage(pageNumber).then((page) => {
       console.log("yyyyyyyyyyyyyyyy" + page.view);
@@ -134,20 +130,13 @@ export class KonvaComponent implements OnInit {
       canvas.height = viewport.height;
       canvas.width = viewport.width;
       console.log(viewport.height + "hight bel scalre");
-      /*
-      this.stage = new Konva.Stage({
-        container: "container",
-        width: viewport.width + 8,
-        // height: window.innerHeight,
-        height: viewport.height * pdfnbrpage + pdfnbrpage * 37,
-      });
-*/
+
       page.render({
         canvasContext: canvas.getContext("2d"),
         viewport: viewport,
       });
       this.listofendpage.push(
-        pageNumber * viewport.height + 30 * pageNumber + 5
+          pageNumber * viewport.height + 30 * pageNumber + 5
       );
 
       const grouppdf = new Konva.Group({
@@ -160,27 +149,25 @@ export class KonvaComponent implements OnInit {
       });
       console.log("aaaaaaaaaaaaaaaaa");
       console.log(
-        (pageNumber - 1) * viewport.height + 30 * (pageNumber - 1) + 5
+          (pageNumber - 1) * viewport.height + 30 * (pageNumber - 1) + 5
       );
       grouppdf.add(
-        new Konva.Image({
-          image: canvas,
-          stroke: "#757d7b",
-          strokeWidth: 4,
-          width: viewport.width,
-          height: viewport.height,
-
-          listening: false,
-        }),
-        new Konva.Text({
-          x: viewport.width - 24,
-          y: viewport.height + 8 * this.scale,
-
-          text: pageNumber.toString() + "/" + this.document.nbrPage.toString(),
-          fontSize: 15,
-          fontFamily: "Calibri",
-          fill: "black",
-        })
+          new Konva.Image({
+            image: canvas,
+            stroke: "#757d7b",
+            strokeWidth: 4,
+            width: viewport.width,
+            height: viewport.height,
+            listening: false,
+          }),
+          new Konva.Text({
+            x: viewport.width - 24,
+            y: viewport.height + 8 * this.scale,
+            text: pageNumber.toString() + "/" + this.document.nbrPage.toString(),
+            fontSize: 15,
+            fontFamily: "Calibri",
+            fill: "black",
+          })
       );
       this.pdfGroup.add(grouppdf);
 
@@ -190,20 +177,15 @@ export class KonvaComponent implements OnInit {
           this.createkonva();
         }, 1000);
     });
-
-    //this.currentpage = grouppdf;
   }
-
-  /////
 
   crerateStage() {
     this.stage = new Konva.Stage({
       container: "container",
       width: this.document.width * this.scale + 8,
-
       height:
-        this.document.height * this.scale * this.document.nbrPage +
-        this.document.nbrPage * 31,
+          this.document.height * this.scale * this.document.nbrPage +
+          this.document.nbrPage * 31,
     });
     this.tr = new Konva.Transformer();
     this.allElementGroup = new Konva.Group();
@@ -231,37 +213,7 @@ export class KonvaComponent implements OnInit {
       console.log(pdf);
       this.crerateStage();
     });
-
-    ////
-
-    /////
-
-    //handle click
-
-    /* element.addEventListener("click", (e) => {
-        e.preventDefault();
-        const anchor = (e.target as HTMLDivElement).closest("a");
-        if (!anchor) return;
-        console.log(anchor.getAttribute("class"));
-        this.createShape(200, 200);
-      });*/
-
-    //   this.domIncanvas();
   }
-
-  /*
- this.scrollContainer.addEventListener("scroll", this.repositionStage);
-      this.repositionStage();
-  repositionStage() {
-    var PADDING = 500;
-
-    var dx = this.scrollContainer.scrollLeft - PADDING;
-    var dy = this.scrollContainer.scrollTop - PADDING;
-    this.stage.container().style.transform =
-      "translate(" + dx + "px, " + dy + "px)";
-    this.stage.x(-dx);
-    this.stage.y(-dy);
-  }*/
 
   createkonva() {
     console.log("tawww 5edmet el konva");
@@ -274,12 +226,10 @@ export class KonvaComponent implements OnInit {
       if (x.elements.length > 0) {
         x.elements.forEach((t) => {
           console.log(t);
-
           var rectangle = Konva.Group.create(t);
           rectangle.children[0].fill(t.children[1].attrs.fill);
           rectangle.on("dragstart", (e) => {
             this.stageLimite(rectangle);
-            //   rectangle.y(Math.min(rectangle.y(), this.stage.height));
           });
           this.allElementGroup.add(rectangle);
         });
@@ -291,23 +241,20 @@ export class KonvaComponent implements OnInit {
       this.menuNode.style.display = "none";
     });
     this.stage.on("contextmenu  ", (e) => {
-      //for delete
       if (e.target !== this.stage) {
         e.evt.preventDefault();
         this.stageLimite(e.target.parent);
         this.menuNode.style.display = "initial";
         var containerRect = this.stage.container().getBoundingClientRect();
         this.menuNode.style.top =
-          containerRect.top + this.stage.getPointerPosition().y + 4 + "px";
+            containerRect.top + this.stage.getPointerPosition().y + 4 + "px";
         this.menuNode.style.left =
-          containerRect.left + this.stage.getPointerPosition().x + 4 + "px";
+            containerRect.left + this.stage.getPointerPosition().x + 4 + "px";
         this.deleteShape(e.target.parent);
       } else this.tr.nodes([]);
     });
 
     this.stage.on("click  ", (e) => {
-      //select element
-
       if (e.target !== this.stage) {
         this.stageLimite(e.target.parent);
         console.log(e);
@@ -318,7 +265,6 @@ export class KonvaComponent implements OnInit {
 
   topage(shape) {
     shape.on("transformend", (e) => {
-      //if (shape.height() * shape.scaleY() < 15) shape.height(15.5);
       const rectdebut = shape.y();
       const rectMidel = shape.y() + (shape.height() * shape.scaleY()) / 2;
       const rectFin = shape.y() + shape.height() * shape.scaleY();
@@ -329,19 +275,14 @@ export class KonvaComponent implements OnInit {
         i++;
         console.log("iiiiiiii=" + i);
         var pageheight =
-          this.document.height * this.scale * i + 30 * this.scale * (i - 1) + 5;
+            this.document.height * this.scale * i + 30 * this.scale * (i - 1) + 5;
         var pageheightmidel = pageheight + 15;
         var pageheightfin = pageheight + 30;
         console.log(pageheight, pageheightmidel, pageheightfin);
-        /* if (pageheight < rectMidel && rectMidel < pageheightmidel)
-          shape.y(pageheight - shape.height() * shape.scaleY());
-        if (pageheightmidel < rectMidel && rectMidel < rectFin)
-          shape.y(pageheightfin + 3);*/
         if (rectMidel < pageheight && rectFin > pageheight) {
           shape.y(pageheight - shape.height() * shape.scaleY());
           found = true;
         }
-
         if (rectMidel < pageheightmidel && rectFin > pageheightmidel) {
           shape.y(pageheight - shape.height() * shape.scaleY());
           found = true;
@@ -349,7 +290,6 @@ export class KonvaComponent implements OnInit {
           console.log(i);
           console.log(found);
         }
-
         if (rectMidel > pageheightmidel && rectdebut < pageheightmidel) {
           shape.y(pageheightfin + 3);
           found = true;
@@ -357,7 +297,6 @@ export class KonvaComponent implements OnInit {
           console.log(i);
           console.log(found);
         }
-
         if (rectMidel > pageheightfin && rectdebut < pageheightfin) {
           shape.y(pageheightfin + 3);
           found = true;
@@ -368,40 +307,31 @@ export class KonvaComponent implements OnInit {
       }
     });
     shape.on("dragend  ", (e) => {
-      //if (shape.height() * shape.scaleY() < 15) shape.height(15.5);
       const rectdebut = shape.y();
       const rectMidel = shape.y() + (shape.height() * shape.scaleY()) / 2;
       const rectFin = shape.y() + shape.height() * shape.scaleY();
-
       var i = 0;
       var found: boolean = false;
       while (i <= this.document.nbrPage && found == false) {
         i++;
         console.log("iiiiiiii=" + i);
         var pageheight =
-          this.document.height * this.scale * i + 30 * this.scale * (i - 1) + 5;
+            this.document.height * this.scale * i + 30 * this.scale * (i - 1) + 5;
         var pageheightmidel = pageheight + 15;
         var pageheightfin = pageheight + 30;
         console.log(pageheight, pageheightmidel, pageheightfin);
-        /* if (pageheight < rectMidel && rectMidel < pageheightmidel)
-          shape.y(pageheight - shape.height() * shape.scaleY());
-        if (pageheightmidel < rectMidel && rectMidel < rectFin)
-          shape.y(pageheightfin + 3);*/
         if (rectMidel < pageheight && rectFin > pageheight) {
           shape.y(pageheight - shape.height() * shape.scaleY());
           found = true;
         }
-
         if (rectMidel < pageheightmidel && rectFin > pageheightmidel) {
           shape.y(pageheight - shape.height() * shape.scaleY());
           found = true;
         }
-
         if (rectMidel > pageheightmidel && rectdebut < pageheightmidel) {
           shape.y(pageheightfin + 3);
           found = true;
         }
-
         if (rectMidel > pageheightfin && rectdebut < pageheightfin) {
           shape.y(pageheightfin + 3);
           found = true;
@@ -409,6 +339,7 @@ export class KonvaComponent implements OnInit {
       }
     });
   }
+
   Info(shape) {
     var tr2 = new Konva.Transformer();
     this.tr.nodes([shape]);
@@ -430,7 +361,6 @@ export class KonvaComponent implements OnInit {
         "scaleX: " + shape.scaleX(),
         "scaleY: " + shape.scaleY(),
       ];
-
       console.log(lines);
     }
   }
@@ -454,7 +384,6 @@ export class KonvaComponent implements OnInit {
       height: 25,
       fill: this.selectedPlacerholder.colorPlaceholder,
       opacity: 0.6,
-
       cornerRadius: 3,
       stroke: "#757d7b",
       strokeWidth: 1.5,
@@ -467,29 +396,14 @@ export class KonvaComponent implements OnInit {
       draggable: true,
       name: this.selectedPlacerholder.idPlaceholder,
     })
-      .add(txt)
-      .add(rect);
-    //  this.placerholders.find((x) => x == this.selectedPlacerholder).elements =      rectangle;
-
-    /* var tr2 = new Konva.Transformer({
-      nodes: [rectangle],
-    });*/
-
-    // this.layer.add(tr2);
-
-    /* if (Math.abs(prevPos.x - newPos.x) ==0) {
-      image1.stopDrag();
-    }*/
+        .add(txt)
+        .add(rect);
 
     this.allElementGroup.add(rectangle);
-
-    //   rectangle.y(Math.min(rectangle.y(), this.stage.height));
 
     this.stageLimite(rectangle);
     rectangle.on("dragstart", (e) => {
       this.stageLimite(rectangle);
-
-      //   rectangle.y(Math.min(rectangle.y(), this.stage.height));
     });
     this.topage(rectangle);
     this.Info(rectangle);
@@ -511,19 +425,11 @@ export class KonvaComponent implements OnInit {
 
   dragShapToCanvas() {
     var nameElement;
-    document
-      .getElementById("listelement")
-      .addEventListener("dragstart", (e) => {
-        /*
-        e.preventDefault();
-        const anchor = (e.target as HTMLDivElement).closest("span");
-        if (!anchor) return;
-        nameElement = anchor.getAttribute("data-text");
-        */
-        var name = (e.target as HTMLDivElement).getElementsByTagName("span");
-        nameElement = name[0].dataset.text;
-      });
-    const con = this.stage.container(); //el stag win  yepointi
+    document.getElementById("listelement").addEventListener("dragstart", (e) => {
+      var name = (e.target as HTMLDivElement).getElementsByTagName("span");
+      nameElement = name[0].dataset.text;
+    });
+    const con = this.stage.container();
     con.addEventListener("dragover", (e) => {
       e.preventDefault();
     });
@@ -541,7 +447,7 @@ export class KonvaComponent implements OnInit {
       itemURL = (e.target as HTMLImageElement).src;
     });
 
-    const con = this.stage.container(); //el stag win  yepointi
+    const con = this.stage.container();
     con.addEventListener("dragover", (e) => {
       e.preventDefault();
     });
@@ -554,8 +460,6 @@ export class KonvaComponent implements OnInit {
         console.log(image);
         this.layer.add(image);
         this.stageLimite(image);
-        // this.Info(image);
-
         image.position(this.stage.getPointerPosition());
         image.draggable(true);
       });
@@ -565,14 +469,9 @@ export class KonvaComponent implements OnInit {
   stageLimite(shape) {
     function getCorner(pivotX, pivotY, diffX, diffY, angle) {
       const distance = Math.sqrt(diffX * diffX + diffY * diffY);
-
-      /// find angle from pivot to corner
       angle += Math.atan2(diffY, diffX);
-
-      /// get new x and y and round it off to integer
       const x = pivotX + distance * Math.cos(angle);
       const y = pivotY + distance * Math.sin(angle);
-
       return { x: x, y: y };
     }
     function getClientRect(rotatedBox) {
@@ -620,10 +519,10 @@ export class KonvaComponent implements OnInit {
     this.tr.boundBoxFunc((oldBox, newBox) => {
       const box = getClientRect(newBox);
       const isOut =
-        box.x < 0 ||
-        box.y < 0 ||
-        box.x + box.width > this.stage.width() ||
-        box.y + box.height > this.stage.height();
+          box.x < 0 ||
+          box.y < 0 ||
+          box.x + box.width > this.stage.width() ||
+          box.y + box.height > this.stage.height();
       if (isOut) {
         return oldBox;
       }
@@ -632,29 +531,11 @@ export class KonvaComponent implements OnInit {
 
     this.layer.add(this.tr);
     this.tr.anchorCornerRadius(10);
-    // this.tr.anchorStroke("blue");
     this.tr.anchorStrokeWidth(2);
     this.tr.attachTo(shape);
-    //tr.borderDash([2, 2]);//cadre dicheré
-    //tr.borderEnabled(false);
-    //  this.tr.borderStroke("blue");
     this.tr.borderStrokeWidth(2);
-    //this.tr.centeredScaling(true);
     this.tr.rotateEnabled(false);
     this.tr.anchorSize(3);
-    // this.tr.resizeEnabled(false);//resizeee enable
-
-    //tr.detach(); //isolerrr transformer from layer
-    /*tr.enabledAnchors([
-  "top-left",
-  "top-center",
-  "top-right",
-  "middle-right",
-  "middle-left",
-  "bottom-left",
-  "bottom-center",
-  "bottom-right",
-]);*/
 
     const nodes = this.tr.nodes();
     console.log(nodes);
@@ -666,11 +547,9 @@ export class KonvaComponent implements OnInit {
       const box = getTotalBox(boxes);
       this.tr.nodes().forEach((shape) => {
         const absPos = shape.getAbsolutePosition();
-        // where are shapes inside bounding box of all shapes?
         const offsetX = box.x - absPos.x;
         const offsetY = box.y - absPos.y;
 
-        // we total box goes outside of viewport, we need to move absolute position of shape
         const newAbsPos = { ...absPos };
         if (box.x < 0) {
           newAbsPos.x = -offsetX;
@@ -698,26 +577,6 @@ export class KonvaComponent implements OnInit {
     console.log(nodes);
   }
 
-  /* pour  responsive stage 
- function fitStageIntoParentContainer() {
-        var container = document.querySelector('#stage-parent');
-
-        // now we need to fit stage into parent container
-        var containerWidth = container.offsetWidth;
-
-        // but we also make the full scene visible
-        // so we need to scale all objects on canvas
-        var scale = containerWidth / sceneWidth;
-
-        stage.width(sceneWidth * scale);
-        stage.height(sceneHeight * scale);
-        stage.scale({ x: scale, y: scale });
-      }
-
-      fitStageIntoParentContainer();
-      // adapt the stage on any window resize
-      window.addEventListener('resize', fitStageIntoParentContainer);*/
-
   deleteUser(place: Placeholder, index: number) {
     if (this.placerholders.length > 1) {
       this.placerholders.splice(index, 1);
@@ -734,34 +593,5 @@ export class KonvaComponent implements OnInit {
       this.msgError = "you need at least one placerholder to do this task";
       console.log();
     }
-  }
-
-  onClick() {
-    /*var json = this.layer.toJSON();
-
-    var nodes = this.layer.find(".1");
-    nodes[0].draggable(false);
-*/
-    /*var nodes = this.layer.find(".1");
-    nodes[0].hide();
-*/
-    /* var shape = this.layer.getIntersection({ x: 50, y: 50 });
-    console.log(this.layer.toJSON());
-    
-  
-    var nodes = this.layer.find("1000");
-
-    console.log(nodes);
-    
-    this.t = !this.t;
-    console.log(this.layer.listening(this.t));
-   
-    var shape = this.layer.getIntersection({ x: 50, y: 50 });
-    console.log(this.layer.toJSON()); */
-    var json = this.allElementGroup.toJSON();
-    console.log(json);
-    /* console.log(this.listofendpage);
-    console.log(this.layer.getHitCanvas());*/
-    console.log(this.placerholders);
   }
 }

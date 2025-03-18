@@ -6,11 +6,11 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class FolderDocService {
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+
   constructor(private http: HttpClient) {}
 
-  getFolderbyidowner(idUser: String): Observable<any[]> {
-    return this.http.get<any[]>(
-      "http://localhost:9999/document-service/docfolders/" + idUser
-    );
+  getFolderbyidowner(idUser: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiBaseUrl}/filees/docfolders/${idUser}`);
   }
 }

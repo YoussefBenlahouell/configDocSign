@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Template } from "../models/template";
 
@@ -7,7 +7,8 @@ import { Template } from "../models/template";
   providedIn: "root",
 })
 export class TemplateService {
-  url = "http://localhost:9999/template-service/templates/";
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/templates/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
 
@@ -16,18 +17,19 @@ export class TemplateService {
   }
 
   getTemplateById(id: string): Observable<Template> {
-    return this.http.get<Template>(this.url + id + "/");
+    return this.http.get<Template>(`${this.url}${id}/`);
   }
+
   getTemplateByIdforchange(id: string): Observable<Template> {
-    return this.http.get<Template>(this.url + "new/" + id + "/");
+    return this.http.get<Template>(`${this.url}new/${id}/`);
   }
+
   editTemplate(template: Template): Observable<any> {
     return this.http.put(this.url, template);
   }
 
-  deleteTemplate(id: String): Observable<any> {
+  deleteTemplate(id: string): Observable<any> {
     const url = `${this.url}${id}/`;
-
     return this.http.delete(url);
   }
 

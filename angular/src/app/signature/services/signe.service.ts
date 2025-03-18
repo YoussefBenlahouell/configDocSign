@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class SigneService {
-  url = "http://localhost:9999/document-service/documents/";
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/filees/documents/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
 
@@ -15,10 +16,13 @@ export class SigneService {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     };
-    return this.http.put(this.url + "change/consulte/" + idDoc, {
-      headers: headers,
-    });
+    return this.http.put(
+        `${this.url}change/consulte/${idDoc}`,
+        null,
+        { headers }
+    );
   }
+
   statutRejectedDocumentSign(documentSign: any, token: any): Observable<any> {
     const body = { documentSign };
     const httpOptions = {
@@ -26,24 +30,17 @@ export class SigneService {
         Authorization: "Bearer " + token,
       }),
     };
-    return this.http.put(this.url + "change/rejected/", body, httpOptions);
+    return this.http.put(`${this.url}change/rejected/`, body, httpOptions);
   }
 
   statutSignDocumentSign(documentSign: any, token: any): Observable<any> {
     const body = { documentSign };
-
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: "Bearer " + token,
       }),
     };
-
-    return this.http.put(
-      "http://localhost:9999/document-service/documents/change/sign",
-
-      body,
-      httpOptions
-    );
+    return this.http.put(`${this.url}change/sign`, body, httpOptions);
   }
 
   getDocumentSignById(id: string, token: any): Observable<any> {
@@ -51,11 +48,6 @@ export class SigneService {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     };
-    return this.http.get<any>(
-      "http://localhost:9999/document-service/documents/forsigner/" + id,
-      {
-        headers: headers,
-      }
-    );
+    return this.http.get<any>(`${this.url}forsigner/${id}`, { headers });
   }
 }

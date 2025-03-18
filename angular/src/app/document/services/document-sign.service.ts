@@ -1,14 +1,14 @@
 import { HttpClient } from "@angular/common/http";
-import { Inject, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { DocumentSign } from "../models/documentSign";
-import { Template } from "../models/template";
 
 @Injectable({
   providedIn: "root",
 })
 export class DocumentSignService {
-  url = "http://localhost:9999/document-service/documents/";
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/filees/documents/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
 
@@ -17,50 +17,43 @@ export class DocumentSignService {
   }
 
   getDocumentSignById(id: string): Observable<DocumentSign> {
-    return this.http.get<DocumentSign>(this.url + id + "/");
+    return this.http.get<DocumentSign>(`${this.url}${id}/`);
   }
+
   editDocumentSign(documentSign: DocumentSign): Observable<any> {
     return this.http.put(this.url, documentSign);
   }
 
-  deleteDocumentSign(id: String): Observable<any> {
+  deleteDocumentSign(id: string): Observable<any> {
     const url = `${this.url}${id}/`;
-
     return this.http.delete(url);
   }
+
   copyDocumentSign(docsign: DocumentSign) {
-    return this.http.post(this.url + "/new", docsign);
+    return this.http.post(`${this.url}new`, docsign);
   }
+
   addDocumentSign(documentSign: DocumentSign) {
     return this.http.post(this.url, documentSign);
   }
 
-  getDocumentsSharedWithMe(idUser: String): Observable<DocumentSign[]> {
-    return this.http.get<DocumentSign[]>(
-      this.url + "sharedwithme/" + idUser + "/"
-    );
+  getDocumentsSharedWithMe(idUser: string): Observable<DocumentSign[]> {
+    return this.http.get<DocumentSign[]>(`${this.url}sharedwithme/${idUser}/`);
   }
-  getDocumentsCreatedAndSharedWithMe(
-    idUser: String
-  ): Observable<DocumentSign[]> {
-    return this.http.get<DocumentSign[]>(
-      this.url + "createdsharedwithme/" + idUser + "/"
-    );
+
+  getDocumentsCreatedAndSharedWithMe(idUser: string): Observable<DocumentSign[]> {
+    return this.http.get<DocumentSign[]>(`${this.url}createdsharedwithme/${idUser}/`);
   }
-  getDocumentsCreatedByMe(idUser: String): Observable<DocumentSign[]> {
-    return this.http.get<DocumentSign[]>(
-      this.url + "createdbyme/" + idUser + "/"
-    );
+
+  getDocumentsCreatedByMe(idUser: string): Observable<DocumentSign[]> {
+    return this.http.get<DocumentSign[]>(`${this.url}createdbyme/${idUser}/`);
   }
 
   getDocumentByIdforchange(id: string): Observable<DocumentSign> {
-    return this.http.get<DocumentSign>(this.url + "new/" + id + "/");
+    return this.http.get<DocumentSign>(`${this.url}new/${id}/`);
   }
 
   addShareWith(sharewith) {
-    return this.http.post(
-      "http://localhost:9999/document-service/sharedocument",
-      sharewith
-    );
+    return this.http.post(`${this.apiBaseUrl}/filees/sharedocument`, sharewith);
   }
 }

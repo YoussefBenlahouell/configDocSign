@@ -37,7 +37,7 @@ export class CreatedByMeComponent implements OnInit {
   templates: Template[] = [];
   masterSelected: boolean;
   checkedList: Template[] = [];
-  idTemplateForDelete: String = "";
+  idTemplateForDelete: string = "";
   lenghtlisttmeplate = 0;
 
   constructor(

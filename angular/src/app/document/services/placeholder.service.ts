@@ -7,12 +7,15 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class PlaceholderService {
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/filees/placeholders/`; // Chemin relatif
+
   httpOptions = {
     headers: new HttpHeaders({
       "Content-Type": "application/json",
     }),
   };
-  url = "http://localhost:9999/document-service/placeholders/";
+
   constructor(private http: HttpClient) {}
 
   getPlaceholders(): Observable<Placeholder[]> {
@@ -20,16 +23,15 @@ export class PlaceholderService {
   }
 
   getPlaceholderById(id: string): Observable<Placeholder> {
-    return this.http.get<Placeholder>(this.url + id + "/");
+    return this.http.get<Placeholder>(`${this.url}${id}/`);
   }
 
   editPlaceholder(placeholder: Placeholder): Observable<any> {
     return this.http.put(this.url, placeholder, this.httpOptions);
   }
 
-  deletePlaceholder(id: String): Observable<any> {
+  deletePlaceholder(id: string): Observable<any> {
     const url = `${this.url}${id}/`;
-
     return this.http.delete(url);
   }
 

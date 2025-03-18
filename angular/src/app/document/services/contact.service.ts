@@ -7,7 +7,8 @@ import { Contact } from "../models/contact";
   providedIn: "root",
 })
 export class ContactService {
-  url = "http://localhost:9999/user-service/contacts/";
+  apiBaseUrl = ""; // Base URL vide pour utiliser NGINX (http://localhost:80)
+  url = `${this.apiBaseUrl}/user/contacts/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +17,15 @@ export class ContactService {
   }
 
   getContactById(id: string): Observable<Contact> {
-    return this.http.get<Contact>(this.url + id + "/");
+    return this.http.get<Contact>(`${this.url}${id}/`);
   }
+
   editContact(contact: Contact): Observable<any> {
     return this.http.put(this.url, contact);
   }
 
   deleteContact(id: number): Observable<any> {
     const url = `${this.url}${id}/`;
-
     return this.http.delete(url);
   }
 
@@ -32,7 +33,7 @@ export class ContactService {
     return this.http.post(this.url, contact);
   }
 
-  getContactCreatedByMe(idUser: String): Observable<Contact[]> {
-    return this.http.get<Contact[]>(this.url + "createdbyme/" + idUser + "/");
+  getContactCreatedByMe(idUser: string): Observable<Contact[]> {
+    return this.http.get<Contact[]>(`${this.url}createdbyme/${idUser}/`);
   }
 }
