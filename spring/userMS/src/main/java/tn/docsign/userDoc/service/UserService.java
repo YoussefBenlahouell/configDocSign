@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,9 +78,13 @@ String fullname=userResponseDTO.getFnameUser()+userResponseDTO.getLnameUser();
         return userRepository.findAll().stream().map(x->userMapper.userToUserResponseDTO(x)).collect(Collectors.toList());
     }
     @Override
-    public UserResponseDTO getUser(String id){
-
-        return userMapper.userToUserResponseDTO(userRepository.findById(id).get());
+    public UserResponseDTO getUser(String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            return userMapper.userToUserResponseDTO(userOptional.get());
+        } else {
+            throw new RuntimeException("User with ID " + id + " not found");
+        }
     }
 
     public List<UserResponseDTO> getUserOfSameOrg(String idOrg){

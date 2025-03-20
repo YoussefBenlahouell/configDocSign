@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { imageforupdate, imageforupdateOrg } from "../models/imageupdate";
 import { organization } from "../models/organization";
 import { User } from "../models/user";
+import * as url from "url";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +24,8 @@ export class UserService {
   }
 
   getUserFromBackById(iduser): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiBaseUrl}/user/${iduser}`); // Modifié
+    console.log("Requesting user with ID:", iduser, "URL:", url);
+    return this.http.get<User>(`${this.apiBaseUrl}/user/${iduser}`); // Modifié
   }
 
   editUser(newUser: User) {
