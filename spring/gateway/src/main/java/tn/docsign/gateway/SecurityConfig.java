@@ -16,60 +16,29 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebFluxSecurity
-public class SecurityConfig    {
+public class SecurityConfig {
 
   @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-    /*  http.authorizeExchange().pathMatchers("/user-service/user/**").permitAll();
+  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+    http
+            .csrf().disable()
+            .authorizeExchange(exchanges -> exchanges
+                    // Chemins Swagger explicitement listés
+                    .pathMatchers("/user/swagger-ui/**").permitAll()
+                    .pathMatchers("/filees/swagger-ui/**").permitAll()
+                    .pathMatchers("/templates/swagger-ui/**").permitAll()
+                    .pathMatchers("/user/v3/api-docs/**").permitAll()
+                    .pathMatchers("/filees/v3/api-docs/**").permitAll()
+                    .pathMatchers("/templates/v3/api-docs/**").permitAll()
+                    // Tes règles existantes
+                    .pathMatchers(HttpMethod.POST, "/user").permitAll()
+                    .pathMatchers(HttpMethod.GET, "/filees/**").permitAll()
+                    // Tout le reste nécessite une authentification
+                    .anyExchange().authenticated()
+            )
+            .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt)
+            .oauth2Login(withDefaults());
 
-        http.
-                authorizeExchange(exchanges -> exchanges.anyExchange().authenticated()
-                        )
-        .oauth2Login(withDefaults());
-         http.csrf().disable();
-          http.oauth2ResourceServer().jwt();
-         return http.build();
-*/
-
-             // .pathMatchers(HttpMethod.GET, "/managers-can-see-this-folder/**", "/and-this-page")
-             // .hasRole("MANAGER")
-              //.matchers(exchange -> new MediaTypeServerWebExchangeMatcher(MediaType.APPLICATION_PDF).matches(exchange))
-            //  .hasRole("ADMIN")
-
-
-     /* http .authorizeExchange().pathMatchers("user-service/**" ).permitAll();
-      http .authorizeExchange() .anyExchange().authenticated() ;
-      http.oauth2Login(withDefaults())
-      .csrf().disable().oauth2ResourceServer().jwt();*/
-      http.csrf().disable().authorizeExchange(exchabge->exchabge.pathMatchers(HttpMethod.POST,"/user").permitAll().
-              pathMatchers(HttpMethod.GET,"/filees/**").permitAll()
-              .anyExchange().authenticated()).oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt);
-
-      return http.build();
-
-
+    return http.build();
   }
-
-
-
-/*
-  
-@Override
-protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable();
-    http.oauth2Login();//.successHandler(myAuthenticationHandler);
-    http.authorizeRequests()
-            // Access to "Menu Files Resource" is allowed (for test purpose)
-             // All the rest need a valid token with Admin role claimed from the keycloak server.
-            .antMatchers("/api/test").authenticated()
-
-            .antMatchers("/user-service/test/user").permitAll()
-            .anyRequest().permitAll()
-            .and().logout()
-            .logoutUrl("/perform_logout")
-            .deleteCookies("JSESSIONID");
-    http.oauth2ResourceServer().jwt();
-    http.headers().frameOptions().sameOrigin();
-}
-*/
 }
