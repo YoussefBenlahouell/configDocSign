@@ -18,10 +18,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {}
   onSignin() {
     this.securityservice.kc.login({
-      redirectUri: "http://localhost:80/dashbord",
+      redirectUri: "http://angular.signatury.com/dashbord",
     });
   }
   onSignup() {
-    this.route.navigate(["/http://localhost:80/user/signuptest"]);
+    this.route.navigate(["/http://angular.signatury.com/user/signuptest"]);
   }
 }

@@ -12,7 +12,7 @@ exports.config = {
     'browserName': 'chrome'
   },
   directConnect: true,
-  baseUrl: 'http://localhost:80/',
+  baseUrl: 'http://angular.signatury.com/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

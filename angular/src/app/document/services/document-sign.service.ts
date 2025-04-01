@@ -7,7 +7,7 @@ import { DocumentSign } from "../models/documentSign";
   providedIn: "root",
 })
 export class DocumentSignService {
-  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   url = `${this.apiBaseUrl}/filees/documents/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}

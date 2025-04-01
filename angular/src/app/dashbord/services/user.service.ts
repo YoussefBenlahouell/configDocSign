@@ -11,7 +11,7 @@ import * as url from "url";
 })
 export class UserService {
   userPostUrl = "http://127.0.0.1:8180/auth"; // URL Keycloak reste inchangée
-  apiBaseUrl = ""; // Base URL vide pour utiliser NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour utiliser NGINX (http://angular.signatury.com)
 
   constructor(private http: HttpClient) {}
 

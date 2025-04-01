@@ -43,7 +43,7 @@ export class UserBoxComponent implements OnInit {
   }
   onlogout() {
     this.securityservice.kc.logout({
-      redirectUri: "http://localhost:80/welcome",
+      redirectUri: "http://angular.signatury.com/welcome",
     });
   }
   test() {

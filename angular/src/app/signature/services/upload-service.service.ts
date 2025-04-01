@@ -13,7 +13,7 @@ import { KeyclockSecurityService } from "src/app/services/keyclock-security.serv
   providedIn: "root",
 })
 export class UploadServiceService {
-  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   private baseUrl = `${this.apiBaseUrl}/filees`; // Chemin relatif
 
   constructor(

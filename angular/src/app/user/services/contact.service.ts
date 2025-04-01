@@ -7,7 +7,7 @@ import { Contact } from "../models/contact";
   providedIn: "root",
 })
 export class ContactService {
-  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   url = `${this.apiBaseUrl}/user/contacts/`; // Chemin relatif corrigé
 
   constructor(private http: HttpClient) {}

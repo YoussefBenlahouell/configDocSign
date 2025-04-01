@@ -21,7 +21,7 @@ export class RequestInterceptorService implements HttpInterceptor {
       return next.handle(req);
     }
 
-    if (req.url.search("http://localhost:8180/auth/admin") != -1) {
+    if (req.url.search("http://keycloak.signatury.com/auth/admin") != -1) {
       console.log("Skipping token for admin URL");
       return next.handle(req);
     } else if (req.url.search("cloudinary") != -1) {

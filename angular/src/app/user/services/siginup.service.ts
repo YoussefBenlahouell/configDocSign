@@ -9,7 +9,7 @@ import { User } from "../models/user";
 })
 export class SiginupService {
   private userPostUrl = "http://127.0.0.1:8180/auth"; // URL Keycloak
-  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  private apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
 
   constructor(private http: HttpClient) {}
 

@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class SigneService {
-  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   url = `${this.apiBaseUrl}/filees/documents/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}

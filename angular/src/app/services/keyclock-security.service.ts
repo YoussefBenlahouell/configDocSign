@@ -23,7 +23,7 @@ export class KeyclockSecurityService {
   public async init(): Promise<void> {
     console.log("Initializing Keycloak...");
     this.kc = new Keycloak({
-      url: "http://localhost:8180/auth/",
+      url: "http://keycloak.signatury.com/auth",
       realm: "ms-realm",
       clientId: "angular-client",
     });
@@ -32,7 +32,7 @@ export class KeyclockSecurityService {
       await this.kc.init({
         onLoad: "login-required",
         checkLoginIframe: false,
-        redirectUri: "http://localhost:80/dashbord",
+        redirectUri: "http://angular.signatury.com/dashbord",
       });
       console.log("Keycloak initialized successfully, token:", this.kc.token);
 
@@ -65,7 +65,7 @@ export class KeyclockSecurityService {
       }),
     };
     return this.http.post(
-        "http://localhost:8180/auth/realms/master/protocol/openid-connect/token",
+        "http://keycloak.signatury.com/auth/realms/master/protocol/openid-connect/token",
         params.toString(),
         httpOptions
     );

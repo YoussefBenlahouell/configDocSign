@@ -7,7 +7,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class PlaceholderService {
-  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   url = `${this.apiBaseUrl}/templates/placeholders/`; // Chemin relatif
 
   httpOptions = {

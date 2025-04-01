@@ -7,7 +7,7 @@ import { Mail } from "../models/mail";
   providedIn: "root",
 })
 export class MailService {
-  apiBaseUrl = ""; // Base URL vide pour NGINX (http://localhost:80)
+  apiBaseUrl = ""; // Base URL vide pour NGINX (http://angular.signatury.com)
   url = `${this.apiBaseUrl}/templates/mails/`; // Chemin relatif
 
   constructor(private http: HttpClient) {}
