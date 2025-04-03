@@ -751,18 +751,18 @@
     {
       "id": "a00a2d96-9615-4ed7-8878-2a51ceb5dcf2",
       "clientId": "angular-client",
-      "rootUrl": "http://localhost:80",
+      "rootUrl": "http://angular.signatury.com",
       "adminUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:80/*",
-        "http://localhost/*"
+        "http://angular.signatury.com:80/*",
+        "http://angular.signatury.com/*"
       ],
       "webOrigins": [
-        "http://localhost:80"
+        "http://angular.signatury.com:80"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1006,7 +1006,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "L2Y7MSZNv7pP6JspTz1qrJaHG0WcugM1",
       "redirectUris": [
         "*"
       ],

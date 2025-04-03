@@ -30,6 +30,7 @@ public class SecurityConfig {
                     .pathMatchers("/user/v3/api-docs/**").permitAll()
                     .pathMatchers("/filees/v3/api-docs/**").permitAll()
                     .pathMatchers("/templates/v3/api-docs/**").permitAll()
+                    .pathMatchers("/v3/api-docs/**").permitAll()
                     // Tes règles existantes
                     .pathMatchers(HttpMethod.POST, "/user").permitAll()
                     .pathMatchers(HttpMethod.GET, "/filees/**").permitAll()
